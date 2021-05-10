@@ -6,12 +6,10 @@ import javax.validation.constraints.NotNull;
 
 import edu.mum.mumsched.users.model.AppUser;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 
 @Entity
 @Data
-@NoArgsConstructor
 @Where(clause="is_active=1")
 public class Student{
     @Id

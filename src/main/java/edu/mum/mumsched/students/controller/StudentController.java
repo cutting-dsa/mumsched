@@ -3,6 +3,8 @@ package edu.mum.mumsched.students.controller;
 import edu.mum.mumsched.students.model.Student;
 import edu.mum.mumsched.students.service.StudentService;
 import edu.mum.mumsched.users.model.AppUser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -18,55 +20,65 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
 @Controller
-@RequestMapping(name = "/students")
 public class StudentController {
+
+    public static final Logger LOGGER = LogManager.getLogger(StudentController.class);
 
     @Autowired
     private StudentService studentService;
 
-    @GetMapping("/")
+    @GetMapping("/students")
     public String getAllStudents(Model model) {
         model.addAttribute("students", studentService.getStudents());
         return "students/all";
     }
 
-    @GetMapping("/{id}")
-    @Validated
+    @GetMapping("/students/{id}")
     public String getStudent(@PathVariable @Min(1) Long id, Model model) {
         model.addAttribute("student", studentService.getStudent(id));
         return "students/view";
     }
 
-    @PostMapping
+    @PostMapping("/students")
     public String processStudent(@Valid Student student,
                                  Errors errors,
                                  SessionStatus sessionStatus,
                                  @AuthenticationPrincipal AppUser user) {
         if (errors.hasErrors()) {
-            return "create";
+            return "students/create";
         }
 
         student.setUser(user);
         studentService.save(student);
         sessionStatus.setComplete();
 
-        return "redirect:/all";
+        return "redirect:/ students/all";
     }
 
-    @PatchMapping(path = "/{studentId}")
+    @GetMapping("/students/edit/{id}")
+    @Validated
+    public String showUpdateForm(@PathVariable @Min(0) Long id, Model model) {
+        Student student = studentService.getStudent(id);
+        model.addAttribute("student", student);
+        return "students/edit-student";
+    }
+
+    @PatchMapping(path = "/students/{studentId}")
     public String patchStudent(@PathVariable("studentId") @Min(1) Long studentId,
                                @RequestBody Student student, Model model) {
         model.addAttribute("student", studentService.updateStudent(studentId, student));
         return "students/view";
     }
 
-    @DeleteMapping("/studentId")
+    @DeleteMapping("/students/delete/{studentId}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteStudent(@PathVariable Long studentId) {
+    public String deleteStudent(@PathVariable @Min(1) Long studentId) {
         try {
             Student student = studentService.getStudent(studentId);
             studentService.deleteStudent(student);
         } catch (EmptyResultDataAccessException e) {
         }
+
+        return "redirect:/ students/all";
     }
 }

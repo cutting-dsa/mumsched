@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
-@Service
+
 public interface AppUserService {
 
     void save(AppUser user);

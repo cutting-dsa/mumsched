@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <meta charset="utf-8">
@@ -52,23 +53,23 @@
         </li>
         <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" th:href="@{/index}">
-                <i class="fas fa-fw fa-plus"></i>
-                <span>Users</span>
+            <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/index}">
+                    <i class="fas fa-fw fa-plus"></i>
+                    <span>Users</span>
             </a>
-            <a class="nav-link" th:href="@{/index}">
+            <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/index}">
                 <i class="fas fa-fw fa-plus"></i>
                 <span>Entry</span>
             </a>
-            <a class="nav-link" th:href="@{/index}">
+            <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/index}">
                 <i class="fas fa-fw fa-plus"></i>
                 <span>Block</span>
             </a>
-            <a class="nav-link" th:href="@{/index}">
+            <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/index}">
                 <i class="fas fa-fw fa-plus"></i>
                 <span>Courses</span>
             </a>
-            <a class="nav-link" th:href="@{/index}">
+            <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/index}">
                 <i class="fas fa-fw fa-plus"></i>
                 <span>Students</span>
             </a>
@@ -116,7 +117,7 @@
                                 Profile
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                            <a class="dropdown-item" th:href="@{/login}" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout
                             </a>
@@ -160,20 +161,7 @@
                                 </tr>
                                 </tfoot>
                                 <tbody>
-                                <!--<tr th:each="student : ${students}">
-                                    <td th:text="${student.firstName}"></td>
-                                    <td th:text="${student.lastName}"></td>
-                                    <td th:text="${student.email}"></td>
-                                    <td>
 
-                                        <a th:href="@{/edit/{id}(id=${student.id})}" class="btn btn-success btn-circle">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a th:href="@{/delete/{id}(id=${student.id})}" class="btn btn-danger btn-circle">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>-->
                                 </tbody>
                             </table>
                         </div>

@@ -49,4 +49,9 @@ public class StudentServiceImpl implements StudentService {
             return null;
         }
     }
+
+    @Override
+    public Student save(Student student) {
+        return studentRepository.save(student);
+    }
 }

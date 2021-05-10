@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -22,10 +23,11 @@ import javax.validation.constraints.Min;
 @Controller
 public class StudentController {
 
-    public static final Logger LOGGER = LogManager.getLogger(StudentController.class);
-
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @GetMapping("/students")
     public String getAllStudents(Model model) {
@@ -37,6 +39,14 @@ public class StudentController {
     public String getStudent(@PathVariable @Min(1) Long id, Model model) {
         model.addAttribute("student", studentService.getStudent(id));
         return "students/view";
+    }
+
+    @GetMapping()
+    @RequestMapping(value = "/students/add", method = RequestMethod.GET)
+    public String studentRegForm(Model model) {
+        Student student = new Student();
+        model.addAttribute("student", student);
+        return "students/create";
     }
 
     @PostMapping("/students")
@@ -60,7 +70,7 @@ public class StudentController {
     public String showUpdateForm(@PathVariable @Min(0) Long id, Model model) {
         Student student = studentService.getStudent(id);
         model.addAttribute("student", student);
-        return "students/edit-student";
+        return "students/view";
     }
 
     @PatchMapping(path = "/students/{studentId}")

@@ -31,7 +31,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/home")
+                .defaultSuccessUrl("/index")
                 .failureForwardUrl("/access_denied")
                 .permitAll()
                 .and().csrf().disable();

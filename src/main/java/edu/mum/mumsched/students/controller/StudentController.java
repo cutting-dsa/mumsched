@@ -1,5 +1,6 @@
 package edu.mum.mumsched.students.controller;
 
+import edu.mum.mumsched.students.model.DeleteStudentParameters;
 import edu.mum.mumsched.students.model.Student;
 import edu.mum.mumsched.students.service.StudentService;
 import edu.mum.mumsched.users.model.AppUser;
@@ -23,6 +24,8 @@ import javax.validation.constraints.Min;
 @Controller
 public class StudentController {
 
+    public static final Logger LOGGER = LogManager.getLogger(StudentController.class);
+
     @Autowired
     private StudentService studentService;
 
@@ -36,13 +39,12 @@ public class StudentController {
     }
 
     @GetMapping("/students/{id}")
-    public String getStudent(@PathVariable @Min(1) Long id, Model model) {
+    public String getStudent(@PathVariable @Min(0) Long id, Model model) {
         model.addAttribute("student", studentService.getStudent(id));
         return "students/view";
     }
 
-    @GetMapping()
-    @RequestMapping(value = "/students/add", method = RequestMethod.GET)
+    @GetMapping(value = "/students/add")
     public String studentRegForm(Model model) {
         Student student = new Student();
         model.addAttribute("student", student);
@@ -62,7 +64,7 @@ public class StudentController {
         studentService.save(student);
         sessionStatus.setComplete();
 
-        return "redirect:/ students/all";
+        return "redirect:/students/all";
     }
 
     @GetMapping("/students/edit/{id}")
@@ -70,25 +72,25 @@ public class StudentController {
     public String showUpdateForm(@PathVariable @Min(0) Long id, Model model) {
         Student student = studentService.getStudent(id);
         model.addAttribute("student", student);
+        LOGGER.info("fetch finished " + model);
         return "students/view";
     }
 
     @PatchMapping(path = "/students/{studentId}")
-    public String patchStudent(@PathVariable("studentId") @Min(1) Long studentId,
+    public String patchStudent(@PathVariable("studentId") @Min(0) Long studentId,
                                @RequestBody Student student, Model model) {
         model.addAttribute("student", studentService.updateStudent(studentId, student));
         return "students/view";
     }
 
-    @DeleteMapping("/students/delete/{studentId}")
+    @DeleteMapping(value = "/students/delete", consumes = "application/json", produces = "application/json")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public String deleteStudent(@PathVariable @Min(1) Long studentId) {
+    public void deleteStudent(@RequestBody DeleteStudentParameters parameters) {
         try {
-            Student student = studentService.getStudent(studentId);
-            studentService.deleteStudent(student);
+            Student student = studentService.getStudent(parameters.getStudentId());
+             studentService.deleteStudent(student);
         } catch (EmptyResultDataAccessException e) {
-        }
 
-        return "redirect:/ students/all";
+        }
     }
 }

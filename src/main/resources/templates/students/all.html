@@ -23,6 +23,9 @@
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/styles.css}"/>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
@@ -171,14 +174,13 @@
                                     <td th:text="${student.registrationNumber}"></td>
                                     <td th:text="${student.user.email}"></td>
                                     <td>
-
-                                        <a th:href="@{/students/edit/{id}(id=${student.id})}" class="btn btn-success btn-circle">
+                                        <a th:href="@{/students/edit/{id}(id=${student.id})}"
+                                           class="btn btn-success btn-circle">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a th:href="@{/students/delete/{id}(id=${student.id})}"
-                                           class="btn btn-danger btn-circle">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                        <button th:onclick="'deleteStudent(\''+ ${student.id}+'\');'" id="unblock"
+                                                class="btn btn-danger btn-circle"><i
+                                                class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -230,6 +232,71 @@
 
 <!-- Page level custom scripts -->
 <script src="js/demo/datatables-demo.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js"></script>
+<script type="text/javascript">
+    function fireKitu() {
+
+        swal({
+            title: "Error!",
+            text: "Here's my error message!",
+            type: "error",
+            confirmButtonText: "Cool"
+        });
+    }
+
+    function deleteStudent(studentId) {
+        swal({
+                title: "Are you sure want to delete this student?",
+                text: "This user will be removed from the system",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-success",
+                cancelButtonClass: "btn-danger",
+                confirmButtonText: "Confirm",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                let parameterObject = {};
+                parameterObject["studentId"] = studentId;
+                if (isConfirm) {
+                    let request = $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        url: "/students/delete",
+                        method: "DELETE",
+                        data: JSON.stringify(parameterObject),
+                        dataType: "json"
+                    });
+
+                    request.done(function () {
+                        swal({
+                                title: "Success",
+                                text: "Deletion successful!",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "Ok"
+                            },
+                            function () {
+                                window.location.reload();
+                                swal.hide();
+                            })
+                    });
+
+                    request.fail(function (jqXHR, textStatus) {
+                        console.log("Request failed: " + textStatus);
+                        swal("Student deletion failed. Try again. " + textStatus);
+                    });
+                } else {
+                    swal.close();
+                }
+            });
+    };
+</script>
 
 </body>
 

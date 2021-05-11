@@ -6,6 +6,7 @@ import edu.mum.mumsched.students.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Component
@@ -53,5 +54,15 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student save(Student student) {
         return studentRepository.save(student);
+    }
+
+    @Override
+    public BigInteger generateRegistrationNumber() {
+        BigInteger recentReg = studentRepository.getMostRecentRegistration();
+        if (recentReg == null) {
+            return new BigInteger("1");
+        }
+        recentReg.add(new BigInteger("1"));
+        return recentReg;
     }
 }

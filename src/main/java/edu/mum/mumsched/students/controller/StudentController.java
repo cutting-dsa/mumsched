@@ -1,5 +1,6 @@
 package edu.mum.mumsched.students.controller;
 
+import edu.mum.mumsched.students.model.AddUserForm;
 import edu.mum.mumsched.students.model.DeleteStudentParameters;
 import edu.mum.mumsched.students.model.Student;
 import edu.mum.mumsched.students.service.StudentService;
@@ -7,10 +8,12 @@ import edu.mum.mumsched.users.model.AppUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.math.BigInteger;
 
 @Controller
 public class StudentController {
@@ -30,7 +34,15 @@ public class StudentController {
     private StudentService studentService;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private UserDetailsService userDetailsService;
+
+    @Bean
+    PasswordEncoder getEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @GetMapping("/students")
     public String getAllStudents(Model model) {
@@ -52,17 +64,25 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public String processStudent(@Valid Student student,
+    public String processStudent(@Valid AddUserForm student,
                                  Errors errors,
-                                 SessionStatus sessionStatus,
-                                 @AuthenticationPrincipal AppUser user) {
+                                 SessionStatus sessionStatus) {
         if (errors.hasErrors()) {
             return "students/create";
         }
 
-        student.setUser(user);
-        studentService.save(student);
-        sessionStatus.setComplete();
+        BigInteger recentRegNo = studentService.generateRegistrationNumber();
+
+        //save user
+//        AppUser newUser = new AppUser(1L,student.getEmail(), student.getFirstName(), student.getLastName(), passwordEncoder.encode("secret"), 1);
+//        AppUser user = userDetailsService.save(newUser);
+//
+//        Student newStudent = new Student();
+//        newStudent.setUser(user);
+//        newStudent.setRegistrationNumber(recentRegNo);
+//
+//        studentService.save(newStudent);
+//        sessionStatus.setComplete();
 
         return "redirect:/students/all";
     }

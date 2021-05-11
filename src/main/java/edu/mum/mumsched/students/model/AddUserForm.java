@@ -7,6 +7,4 @@ public class AddUserForm {
     private String firstName;
     private String lastName;
     private String email;
-
-
 }

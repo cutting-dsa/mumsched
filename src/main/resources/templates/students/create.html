@@ -160,21 +160,21 @@
                                   method="post">
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="firstName"
-                                           placeholder="First Name" th:field="${student.user.firstName}" required>
+                                           placeholder="First Name" name="firstName" required>
 <!--                                    <span class="validationError"-->
 <!--                                          th:if="${#fields.hasErrors('firstName')}"-->
 <!--                                          th:errors="*{firstName}">First Name Error</span>-->
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="lastName"
-                                           placeholder="Last Name" th:field="${student.user.lastName}" required>
+                                           placeholder="Last Name" name="lastName" required>
 <!--                                    <span class="validationError"-->
 <!--                                          th:if="${#fields.hasErrors('lastName')}"-->
 <!--                                          th:errors="*{lastName}">Last Name Error</span>-->
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="email"
-                                           placeholder="Email Address" th:field="${student.user.email}" required>
+                                           placeholder="Email Address" name="email" required>
 <!--                                    <span class="validationError"-->
 <!--                                          th:if="${#fields.hasErrors('email')}"-->
 <!--                                          th:errors="*{email}">Email Error</span>-->

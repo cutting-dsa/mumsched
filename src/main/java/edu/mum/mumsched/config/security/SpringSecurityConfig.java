@@ -31,7 +31,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/index")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login");
+                .logoutSuccessUrl("/login")
+                .permitAll();
     }
 
     //Spring Boot configured this already.

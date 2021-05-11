@@ -35,13 +35,5 @@ public class DefaultController {
         return "error/403.html";
     }
 
-    @RequestMapping(value="/logout", method = RequestMethod.POST)
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/login?logout";
-    }
 
 }

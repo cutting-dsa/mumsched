@@ -44,12 +44,4 @@ public class DefaultController {
     public String getHome() {
         return VIEW_INDEX;
     }
-
-    @GetMapping(value = "/users")
-    public String users(Model model) {
-        model.addAttribute("users", new ArrayList<AppUser>());
-        return "/users/view";
-    }
-
-
 }

@@ -12,7 +12,7 @@ public interface AppUserService {
     void edit(AppUser user);
     void delete(Long id);
     AppUser getUser(Long id) throws Exception;
-    Collection<AppUser> getUsers();
+    Collection<AppUser> getAllUsers();
 
 
 }

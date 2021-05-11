@@ -1,5 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
@@ -15,33 +16,33 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" th:href="@{/index}">
+        <a class="nav-link" th:href="@{/home}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/index}">
+        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/users/}">
             <i class="fas fa-fw fa-plus"></i>
             <span>Users</span>
         </a>
-        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/index}">
+        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/entries}">
             <i class="fas fa-fw fa-plus"></i>
             <span>Entry</span>
         </a>
-        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/index}">
+        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/blocks}">
             <i class="fas fa-fw fa-plus"></i>
             <span>Block</span>
         </a>
-        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/index}">
+        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/courses}">
             <i class="fas fa-fw fa-plus"></i>
             <span>Courses</span>
         </a>
-        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/index}">
+        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/students}">
             <i class="fas fa-fw fa-plus"></i>
             <span>Students</span>
         </a>
-        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/index}">
+        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/faculties}">
             <i class="fas fa-fw fa-plus"></i>
             <span>Faculty</span>
         </a>

@@ -1,10 +1,10 @@
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:with="http://www.thymeleaf.org/extras/with"
-      layout:decorate="~{layout}">
+      layout:decorate="~{layout}"
+      with:title="Users">>
 <th:block layout:fragment="content">
-    <div class="container-fluid">
-
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Users</h1>
         <p class="mb-4">List of all users </p>
@@ -15,7 +15,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">All Users</h6>
             </div>
             <div class="card-body">
-                <div class="table-responsive"> <!-- th:if="${not #lists.isEmpty(users)}" -->
+                <div class="table-responsive" th:if="${not #lists.isEmpty(users)}">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
@@ -34,7 +34,7 @@
                             <td th:text="${user.lastName}"></td>
                             <td th:text="${user.email}"></td>
                             <td>
-                                <a th:href="@{/students/edit/{id}(id=${user.id})}"
+                                <a th:href="@{/users/edit/{id}(id=${user.id})}"
                                    class="btn btn-success btn-circle">
                                     <i class="fas fa-edit"></i>
                                 </a>
@@ -48,7 +48,5 @@
                 </div>
             </div>
         </div>
-
-    </div>
 </th:block>
 </html>

@@ -72,12 +72,11 @@ public class StudentController {
     public String showUpdateForm(@PathVariable @Min(0) Long id, Model model) {
         Student student = studentService.getStudent(id);
         model.addAttribute("student", student);
-        LOGGER.info("fetch finished " + model);
         return "students/view";
     }
 
-    @PatchMapping(path = "/students/{studentId}")
-    public String patchStudent(@PathVariable("studentId") @Min(0) Long studentId,
+    @PostMapping(path = "/students/update/{studentId}")
+    public String updateStudent(@PathVariable("studentId") @Min(0) Long studentId,
                                @RequestBody Student student, Model model) {
         model.addAttribute("student", studentService.updateStudent(studentId, student));
         return "students/view";

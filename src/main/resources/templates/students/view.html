@@ -12,7 +12,7 @@
     <title>Students</title>
 
     <!-- Custom fonts for this template -->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
@@ -117,7 +117,7 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
                             <img class="img-profile rounded-circle"
-                                 src="img/undraw_profile.svg">
+                                 th:src="@{/img/undraw_profile.svg}">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -156,7 +156,9 @@
                             <!--                             Please correct the problems below and resubmit.-->
                             <!--                             </span>-->
                             <!--                            </div>-->
-                            <form class="user" action="#" th:action="@{/students}" th:object="${student}"
+                            <form class="user" action="#"
+                                  th:action="@{/students/update/{id}(id=${student.id})}"
+                                  th:object="${student}"
                                   method="post">
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="firstName"
@@ -180,7 +182,7 @@
 <!--                                          th:errors="*{student.user.email}">Email Error</span>-->
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="regNo"
+                                    <input type="text" class="form-control form-control-user" id="registrationNumber"
                                            placeholder="Registration Number" th:value="${student.registrationNumber}" required>
                                     <span class="validationError"
                                           th:if="${#fields.hasErrors('registrationNumber')}"
@@ -229,13 +231,6 @@
 
 <!-- Custom scripts for all pages-->
 <script th:src="@{/js/sb-admin-2.min.js}"></script>
-
-<!-- Page level plugins -->
-<script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
-<script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
-
-<!-- Page level custom scripts -->
-<script th:src="@{/js/demo/datatables-demo.js}"></script>
 
 </body>
 

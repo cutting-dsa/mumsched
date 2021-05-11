@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:with="http://www.thymeleaf.org/extras/with"
+      layout:decorate="~{layout}"
+      with:title="Users">>
+<th:block layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Entries</h1>
+    <p class="mb-4">List of all entries added </p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">All Entries <button data-toggle="modal" data-target="#createModal" class="btn btn-outline-primary float-right btn-sm">Create</button></h6>
+        </div>
+        <div class="card-body">
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error! </strong> <span th:text="${errorMessage}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error! </strong> <span th:text="${param.error}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="table-responsive" > <!-- th:if="${not #lists.isEmpty(users)}" -->
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Capacity</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="std : ${entries}">
+                        <td><span th:text="${std.getName()}"></span></td>
+                        <td><span th:text="${std.getDate().toString()}"></span></td>
+                        <td><span th:text="${std.getCapacity()}"></span></td>
+                        <td>
+                            <ul class="list-inline m-0">
+                                <li class="list-inline-item">
+                                    <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="modal" th:data-target="'#editModal-'+${std.getId()}" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+
+                                    <div class="modal fade" th:id="'editModal-'+${std.getId()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header border-bottom-0">
+                                                    <h5 class="modal-title" th:id="'exampleModalEdit-'+${std.getId()}">Edit Entry</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form method="post" action="/entries/edit">
+                                                    <div class="modal-body">
+                                                        <input type="hidden" th:value="${std.getId()}" name="id" />
+                                                        <div class="form-group">
+                                                            <label for="name1">Name</label>
+                                                            <input type="text" class="form-control" id="name1" th:value="${std.getName()}" name="name" aria-describedby="emailHelp" placeholder="Enter entry name">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="capacity">Capacity</label>
+                                                            <input type="number" name="capacity" th:value="${std.getCapacity()}" class="form-control" id="capacity" placeholder="Capacity">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="date">Date</label>
+                                                            <input type="date" name="date" th:value="${std.getDate()}" class="form-control" id="date" placeholder="Entry Date">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer border-top-0 d-flex justify-content-center">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Edit</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="btn btn-danger btn-sm rounded-0" th:href="'/entries/delete/'+${std.getId()}" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Modal -->
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Entry</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name1">Name</label>
+                            <input type="text" class="form-control" id="name1" name="name" aria-describedby="emailHelp" placeholder="Enter entry name">
+                        </div>
+                        <div class="form-group">
+                            <label for="capacity">Capacity</label>
+                            <input type="text" name="capacity" class="form-control" id="capacity" placeholder="Capacity">
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" name="date" class="form-control" id="date" placeholder="Entry Date">
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0 d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End of Main Content -->
+</th:block>
+</html>

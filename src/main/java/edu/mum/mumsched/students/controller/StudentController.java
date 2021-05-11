@@ -7,12 +7,14 @@ import edu.mum.mumsched.students.model.Student;
 import edu.mum.mumsched.students.service.StudentService;
 import edu.mum.mumsched.users.model.AppUser;
 import edu.mum.mumsched.users.repository.AppUserRepository;
+import edu.mum.mumsched.users.service.AppUserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +39,7 @@ public class StudentController {
     private StudentService studentService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private AppUserService userService;
 
     @Autowired
     private AppUserRepository appUserRepository;
@@ -76,25 +78,25 @@ public class StudentController {
 
         BigInteger recentRegNo = studentService.generateRegistrationNumber();
         AtomicBigInteger atomicBigInteger = new AtomicBigInteger(recentRegNo);
-        //save user
-//        AppUser newUser = new AppUser();
-//        newUser.setActive(1);
-//        newUser.setEmail(student.getEmail());
-//        newUser.setPassword(passwordEncoder.encode("secret"));
-//        newUser.setFirstName(student.getFirstName());
-//        newUser.setLastName(student.getLastName());
-//      //  AppUser user = userDetailsService.save(newUser);
-//
-//        AppUser user = userDetailsService.loadUserByUsername("j")
 
-        AppUser user = appUserRepository.findByEmail("student@gmail.com");
+        //save user
+        AppUser newUser = new AppUser();
+        newUser.setActive(true);
+        newUser.setEmail(student.getEmail());
+        newUser.setPassword("secret");
+        newUser.setFirstName(student.getFirstName());
+        newUser.setLastName(student.getLastName());
+        newUser.setRole("STUDENT");
+
+        userService.save(newUser);
+
+        AppUser user = userService.getUserByEmail(newUser.getEmail());
 
         Student newStudent = new Student();
         newStudent.setUser(user);
         newStudent.setActive(true);
         BigInteger incremented = atomicBigInteger.incrementAndGet();
         newStudent.setRegistrationNumber(incremented);
-
 
         studentService.save(newStudent);
         sessionStatus.setComplete();

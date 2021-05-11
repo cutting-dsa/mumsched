@@ -25,7 +25,6 @@ public class Student implements Serializable {
     private Long id;
 
     @NotNull
-    @NotBlank(message = "Student Registration Number cannot be blank")
     @Column(name = "registration_number", nullable = false, unique = true)
     private BigInteger registrationNumber;
 

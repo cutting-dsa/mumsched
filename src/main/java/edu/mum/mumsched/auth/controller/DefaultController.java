@@ -1,5 +1,6 @@
 package edu.mum.mumsched.auth.controller;
 
+import edu.mum.mumsched.users.model.AppUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,6 +43,12 @@ public class DefaultController {
     @GetMapping(value = "/")
     public String getHome() {
         return VIEW_INDEX;
+    }
+
+    @GetMapping(value = "/users")
+    public String users(Model model) {
+        model.addAttribute("users", new ArrayList<AppUser>());
+        return "/users/view";
     }
 
 

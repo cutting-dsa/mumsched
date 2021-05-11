@@ -38,7 +38,7 @@ public class AppUser {
     private String password;
 
     @Column(name = "active", nullable = false)
-    private Integer active;
+    private Boolean active;
 
     @Column(name = "role", nullable = false)
     private String role;
@@ -75,5 +75,11 @@ public class AppUser {
                 ", lastName='" + lastName + '\'' +
                 ", active=" + active +
                 '}';
+    }
+
+    public void edit(AppUser user){
+
+
+
     }
 }

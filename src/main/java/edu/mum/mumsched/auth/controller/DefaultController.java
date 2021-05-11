@@ -17,15 +17,15 @@ import java.util.List;
 @Controller
 public class DefaultController {
 
-    @RequestMapping("/index")
+    @RequestMapping("/home")
     public String index(Model model) {
         return "home";
     }
 
     // Login form
-    @RequestMapping("/")
+    @RequestMapping("/login")
     public String login() {
-        return "redirect:/login";
+        return "/login";
     }
 
     // Login form with error

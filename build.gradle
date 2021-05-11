@@ -37,6 +37,7 @@ dependencies {
     implementation 'junit:junit:4.12'
     implementation 'javax.validation:validation-api'
     implementation 'org.hibernate.validator:hibernate-validator'
+    implementation 'org.flywaydb:flyway-core'
 }
 
 test {

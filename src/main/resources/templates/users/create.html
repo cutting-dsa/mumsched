@@ -1,10 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:with="http://www.thymeleaf.org/extras/with"
+      layout:decorate="~{layout}"
+      with:title="Users">>
+<th:block layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Users</h1>
+    <p class="mb-4">Create User </p>
 
-</body>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Create user</h6>
+        </div>
+        <div class="card-body">
+            <form class="user" action="#" th:action="@{/users/save}" th:object="${appUser}"
+                  method="post">
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="text" class="form-control form-control-user" id="firstName"
+                               placeholder="First Name" th:field="*{firstName}" required>
+                        <span class="validationError"
+                              th:if="${#fields.hasErrors('firstName')}"
+                              th:errors="*{firstName}">First Name Error</span>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control form-control-user" id="lastName"
+                               placeholder="Last Name" th:field="*{lastName}" required>
+                        <span class="validationError"
+                              th:if="${#fields.hasErrors('lastName')}"
+                              th:errors="*{lastName}">Last Name Error</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control form-control-user" id="email"
+                           placeholder="Email Address" th:field="*{email}" required>
+                    <span class="validationError"
+                          th:if="${#fields.hasErrors('email')}"
+                          th:errors="*{email}">Email Error</span>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="password" class="form-control form-control-user" id="password"
+                               placeholder="Password" th:field="*{password}" required>
+                        <span class="validationError"
+                              th:if="${#fields.hasErrors('password')}"
+                              th:errors="*{password}">Password Error</span>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="password" class="form-control form-control-user" id="confirm-password"
+                               placeholder="Confirm Password" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <label>Select Role</label>
+                        <select name="role" class="form-control" th:field="*{role}">
+                            <option th:each="role : ${T(edu.mum.mumsched.users.model.Role).values()}"
+                                    th:value="${role}" th:text="${role}"></option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="check-box">
+                            <label>
+                                User Active <input type="checkbox" th:field="${appUser.active}">
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <button id="btnAdd" type="submit" class="btn btn-primary btn-user btn-block">Add User
+                        </button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button id="btnCancel" type="submit" class="btn btn-danger btn-user btn-block">Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</th:block>
 </html>

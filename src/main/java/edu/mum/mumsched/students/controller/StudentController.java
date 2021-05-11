@@ -1,10 +1,12 @@
 package edu.mum.mumsched.students.controller;
 
 import edu.mum.mumsched.students.model.AddUserForm;
+import edu.mum.mumsched.students.model.AtomicBigInteger;
 import edu.mum.mumsched.students.model.DeleteStudentParameters;
 import edu.mum.mumsched.students.model.Student;
 import edu.mum.mumsched.students.service.StudentService;
 import edu.mum.mumsched.users.model.AppUser;
+import edu.mum.mumsched.users.repository.AppUserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ public class StudentController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private AppUserRepository appUserRepository;
 
     @Bean
     PasswordEncoder getEncoder() {
@@ -72,19 +74,31 @@ public class StudentController {
         }
 
         BigInteger recentRegNo = studentService.generateRegistrationNumber();
-
+        AtomicBigInteger atomicBigInteger = new AtomicBigInteger(recentRegNo);
         //save user
-        AppUser newUser = new AppUser(1L,student.getEmail(), student.getFirstName(), student.getLastName(), passwordEncoder.encode("secret"), 1);
-        AppUser user = userDetailsService.save(newUser);
+//        AppUser newUser = new AppUser();
+//        newUser.setActive(1);
+//        newUser.setEmail(student.getEmail());
+//        newUser.setPassword(passwordEncoder.encode("secret"));
+//        newUser.setFirstName(student.getFirstName());
+//        newUser.setLastName(student.getLastName());
+//      //  AppUser user = userDetailsService.save(newUser);
+//
+//        AppUser user = userDetailsService.loadUserByUsername("j")
+
+        AppUser user = appUserRepository.findByEmail("student@gmail.com");
 
         Student newStudent = new Student();
         newStudent.setUser(user);
-        newStudent.setRegistrationNumber(recentRegNo);
+        newStudent.setActive(true);
+        BigInteger incremented = atomicBigInteger.incrementAndGet();
+        newStudent.setRegistrationNumber(incremented);
+
 
         studentService.save(newStudent);
         sessionStatus.setComplete();
 
-        return "redirect:/students/all";
+        return "redirect:/students";
     }
 
     @GetMapping("/students/edit/{id}")

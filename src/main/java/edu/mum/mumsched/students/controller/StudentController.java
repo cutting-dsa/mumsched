@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -60,16 +61,16 @@ public class StudentController {
 
     @GetMapping(value = "/students/add")
     public String studentRegForm(Model model) {
-        Student student = new Student();
+        AddUserForm student = new AddUserForm();
         model.addAttribute("student", student);
         return "students/create";
     }
 
     @PostMapping("/students")
-    public String processStudent(@Valid AddUserForm student,
-                                 Errors errors,
+    public String processStudent(@Valid @ModelAttribute("student") AddUserForm student,
+                                 BindingResult result,
                                  SessionStatus sessionStatus) {
-        if (errors.hasErrors()) {
+        if (result.hasErrors()) {
             return "students/create";
         }
 
@@ -110,8 +111,14 @@ public class StudentController {
     }
 
     @PostMapping(path = "/students/update/{studentId}")
-    public String updateStudent(@PathVariable("studentId") @Min(0) Long studentId,
-                               @RequestBody Student student, Model model) {
+    public String updateStudent(@PathVariable("studentId") Long studentId,
+                               @Valid Student student,
+                                BindingResult result,
+                                Model model) {
+        if (result.hasErrors()) {
+            student.setId(studentId);
+            return "students/view";
+        }
         model.addAttribute("student", studentService.updateStudent(studentId, student));
         return "students/view";
     }

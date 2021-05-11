@@ -33,6 +33,6 @@ public class Student implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private AppUser user;
 
-    @Column(name = "is_active")
+    @Column(name = "is_active", nullable = false)
     private Boolean active;
 }

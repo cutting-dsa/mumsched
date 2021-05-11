@@ -3,11 +3,12 @@ package edu.mum.mumsched.users.service;
 import edu.mum.mumsched.users.model.AppUser;
 import edu.mum.mumsched.users.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
-@Component
+@Service
 public class AppUserServiceImpl implements AppUserService{
 
     @Autowired
@@ -29,13 +30,17 @@ public class AppUserServiceImpl implements AppUserService{
     }
 
     @Override
-    public AppUser getUser(Long id) throws Exception {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new Exception("User with id : " + id + " not found"));
+    public AppUser getUser(Long id)  {
+        Optional<AppUser> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            //throw new NotF
+        }
+
+        return user.get();
     }
 
     @Override
-    public Collection<AppUser> getUsers() {
-        return null;
+    public Collection<AppUser> getAllUsers() {
+        return userRepository.findAll();
     }
 }

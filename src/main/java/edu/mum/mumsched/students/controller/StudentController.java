@@ -74,15 +74,15 @@ public class StudentController {
         BigInteger recentRegNo = studentService.generateRegistrationNumber();
 
         //save user
-//        AppUser newUser = new AppUser(1L,student.getEmail(), student.getFirstName(), student.getLastName(), passwordEncoder.encode("secret"), 1);
-//        AppUser user = userDetailsService.save(newUser);
-//
-//        Student newStudent = new Student();
-//        newStudent.setUser(user);
-//        newStudent.setRegistrationNumber(recentRegNo);
-//
-//        studentService.save(newStudent);
-//        sessionStatus.setComplete();
+        AppUser newUser = new AppUser(1L,student.getEmail(), student.getFirstName(), student.getLastName(), passwordEncoder.encode("secret"), 1);
+        AppUser user = userDetailsService.save(newUser);
+
+        Student newStudent = new Student();
+        newStudent.setUser(user);
+        newStudent.setRegistrationNumber(recentRegNo);
+
+        studentService.save(newStudent);
+        sessionStatus.setComplete();
 
         return "redirect:/students/all";
     }

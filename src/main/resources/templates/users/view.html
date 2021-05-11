@@ -3,16 +3,21 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:with="http://www.thymeleaf.org/extras/with"
       layout:decorate="~{layout}"
-      with:title="Users">>
+      with:role="Users">>
 <th:block layout:fragment="content">
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Users</h1>
-        <p class="mb-4">List of all users </p>
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Users</h1>
+            <a th:href="@{/users/create}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                    class="fas fa-download fa-sm text-white-50"></i> Create User</a>
+        </div>
+    <!-- End Page Heading -->
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">All Users</h6>
+
             </div>
             <div class="card-body">
                 <div class="table-responsive" th:if="${not #lists.isEmpty(users)}">
@@ -38,7 +43,7 @@
                                    class="btn btn-success btn-circle">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button th:onclick="'deleteStudent(\''+ ${user.id}+'\');'" id="unblock"
+                                <button th:href="@{/users/delete/{id}(id=${user.id})}" id="unblock"
                                         class="btn btn-danger btn-circle"><i
                                         class="fas fa-trash"></i></button>
                             </td>

@@ -17,8 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /*@Autowired
-    CustomUserDetailsService userService;*/
+    @Autowired
+    CustomUserDetailsService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -29,11 +29,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/home")
+                .failureUrl("/login?error=true")
+                .loginProcessingUrl("/login")
+                .permitAll()
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login")
-                .permitAll();
+                .logoutSuccessUrl("/login?logoutSuccess=true")
+                .deleteCookies("JSESSIONID");
     }
 
     //Spring Boot configured this already.
@@ -65,7 +68,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService();
+        return userService;
     }
 
 

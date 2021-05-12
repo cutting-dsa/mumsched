@@ -1,58 +1,55 @@
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:with="http://www.thymeleaf.org/extras/with"   layout:decorate="~{layout}">
+      xmlns:with="http://www.thymeleaf.org/extras/with" layout:decorate="~{layout}" with:role="Courses">
 
 <th:block layout:fragment="content">
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
-
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Add Student</h1>
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Courses</h1>
+            <a th:href="@{/courses}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                    class="fas fa-download fa-sm text-white-50"></i> Create Course</a>
+        </div>
+    <!-- End Page Heading -->
+
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">All Students</h6>
+                <h6 class="m-0 font-weight-bold text-primary">All Courses</h6>
+
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <!--                            <div th:if="${#fields.hasErrors()}">-->
-                    <!--                                    <span class="validationError">-->
-                    <!--                             Please correct the problems below and resubmit.-->
-                    <!--                             </span>-->
-                    <!--                            </div>-->
-                    <form class="user" action="#" th:action="@{/courses}" th:object="${course}"
-                          method="post">
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-user" id="code"
-                                   placeholder="Course Code" th:field="${course.code}" required>
-                            <!--                                    <span class="validationError"-->
-                            <!--                                          th:if="${#fields.hasErrors('code')}"-->
-                            <!--                                          th:errors="*{code}">Code Error</span>-->
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-user" id="courseName"
-                                   placeholder="Course Name" th:field="${course.name}" required>
-                            <!--                                    <span class="validationError"-->
-                            <!--                                          th:if="${#fields.hasErrors('name')}"-->
-                            <!--                                          th:errors="*{name}">Course Name Error</span>-->
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-user" id="courseDescription"
-                                   placeholder="Course Description" th:field="${course.description}" required>
-                            <!--                                    <span class="validationError"-->
-                            <!--                                          th:if="${#fields.hasErrors('description')}"-->
-                            <!--                                          th:errors="*{description}">Course Description Error</span>-->
-                        </div>
-                        <button id="btnAdd" type="submit" class="btn btn-primary btn-user btn-block">Add Course
-                        </button>
-                    </form>
+                <div class="table-responsive" th:if="${not #lists.isEmpty(courses)}">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Course Code</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="course : ${courses}">
+                            <td th:text="${course.id}"></td>
+                            <td th:text="${course.code}"></td>
+                            <td th:text="${course.name}"></td>
+                            <td th:text="${course.description}"></td>
+                            <td>
+                                <a th:href="@{/courses/edit/{id}(id=${course.id})}"
+                                   class="btn btn-success btn-circle">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button th:href="@{/courses/delete/{id}(id=${course.id})}" id="unblock"
+                                        class="btn btn-danger btn-circle"><i
+                                        class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-
-    </div>
-    <!-- /.container-fluid -->
-
-    </div>
-    <!-- End of Main Content -->
 </th:block>
 </html>

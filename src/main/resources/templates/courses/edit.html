@@ -1,58 +1,58 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:with="http://www.thymeleaf.org/extras/with"   layout:decorate="~{layout}">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:with="http://www.thymeleaf.org/extras/with" layout:decorate="~{layout}" with:title="Courses">>
 
 <th:block layout:fragment="content">
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Courses</h1>
+    <p class="mb-4">Edit Course </p>
 
-        <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Add Student</h1>
-        <!-- DataTales Example -->
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">All Students</h6>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <!--                            <div th:if="${#fields.hasErrors()}">-->
-                    <!--                                    <span class="validationError">-->
-                    <!--                             Please correct the problems below and resubmit.-->
-                    <!--                             </span>-->
-                    <!--                            </div>-->
-                    <form class="user" action="#" th:action="@{/courses}" th:object="${course}"
-                          method="post">
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-user" id="code"
-                                   placeholder="Course Code" th:field="${course.code}" required>
-                            <!--                                    <span class="validationError"-->
-                            <!--                                          th:if="${#fields.hasErrors('code')}"-->
-                            <!--                                          th:errors="*{code}">Code Error</span>-->
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-user" id="courseName"
-                                   placeholder="Course Name" th:field="${course.name}" required>
-                            <!--                                    <span class="validationError"-->
-                            <!--                                          th:if="${#fields.hasErrors('name')}"-->
-                            <!--                                          th:errors="*{name}">Course Name Error</span>-->
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-user" id="courseDescription"
-                                   placeholder="Course Description" th:field="${course.description}" required>
-                            <!--                                    <span class="validationError"-->
-                            <!--                                          th:if="${#fields.hasErrors('description')}"-->
-                            <!--                                          th:errors="*{description}">Course Description Error</span>-->
-                        </div>
-                        <button id="btnAdd" type="submit" class="btn btn-primary btn-user btn-block">Add Course
-                        </button>
-                    </form>
-                </div>
-            </div>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Edit Course</h6>
         </div>
+        <div class="card-body">
+            <form class="course" action="#" th:action="@{/courses/{id}(id=${course.id})}" th:object="${editCourse}"
+                  method="post">
+                <input type="text" th:field="*{id}" th:hidden="true" />
 
-    </div>
-    <!-- /.container-fluid -->
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="text" class="form-control form-control-user" id="courseCode"
+                               placeholder="Course Code" th:field="*{code}" required>
+                        <span class="validationError"
+                              th:if="${#fields.hasErrors('code')}"
+                              th:errors="*{code}">Course Code Error</span>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control form-control-user" id="courseName"
+                               placeholder="Course Name" th:field="*{name}" required>
+                        <span class="validationError"
+                              th:if="${#fields.hasErrors('name')}"
+                              th:errors="*{name}">Course Name Error</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control form-control-user" id="courseDescription"
+                           placeholder="Course Description" th:field="*{description}" required>
+                    <span class="validationError"
+                          th:if="${#fields.hasErrors('description')}"
+                          th:errors="*{description}">Course Description Error</span>
+                </div>
 
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <button id="btnAdd" type="submit" class="btn btn-primary btn-user btn-block">Edit Course
+                        </button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button id="btnCancel" type="submit" class="btn btn-danger btn-user btn-block">Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <!-- End of Main Content -->
 </th:block>
 </html>

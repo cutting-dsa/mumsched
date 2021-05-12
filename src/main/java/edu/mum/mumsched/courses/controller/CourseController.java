@@ -3,6 +3,7 @@ package edu.mum.mumsched.courses.controller;
 import edu.mum.mumsched.courses.entity.Course;
 import edu.mum.mumsched.courses.service.CourseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,8 +15,10 @@ public class CourseController {
     private CourseServiceImpl courseService;
 
     @RequestMapping(value ="/courses", method = RequestMethod.GET)
-    public List<Course> getAllCourses(){
-        return courseService.getAllCourses();
+    public String getAllCourses(Model model){
+        List<Course> courses = courseService.getAllCourses();
+        model.addAttribute("courses", courses);
+        return "courses/view";
     }
 
     @RequestMapping(value ="/courses/{id}", method = RequestMethod.GET)

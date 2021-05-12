@@ -13,8 +13,8 @@
             <h6 class="m-0 font-weight-bold text-primary">Create Course</h6>
         </div>
         <div class="card-body">
-            <form class="course" action="#" th:action="@{/courses/save}" th:object="${addcourse}"
-                  method="post">
+            <form class="course" action="#" th:action="@{/courses/save}" th:object="${newcourse}"
+                  method="get">
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <input type="text" class="form-control form-control-user" id="courseCode"

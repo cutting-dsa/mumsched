@@ -9,4 +9,5 @@ public interface BlockService {
     List<Block> getAllBlocks();
     void edit(Block entry) throws Exception;
     void delete(Long id) throws Exception;
+    Block getBlock(Long id);
 }

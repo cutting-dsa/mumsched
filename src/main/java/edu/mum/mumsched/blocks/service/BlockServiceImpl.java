@@ -2,6 +2,7 @@ package edu.mum.mumsched.blocks.service;
 
 import edu.mum.mumsched.blocks.entity.Block;
 import edu.mum.mumsched.blocks.repository.BlockRepository;
+import edu.mum.mumsched.config.exceptions.NotFoundException;
 import edu.mum.mumsched.entries.entity.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,4 +48,12 @@ public class BlockServiceImpl implements BlockService {
         }
         repository.deleteById(id);
     }
+
+    @Override
+    public Block getBlock(Long id)  {
+        return repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Block with id " + id + " is not found"));
+    }
+
+
 }

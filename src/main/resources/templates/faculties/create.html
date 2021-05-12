@@ -6,13 +6,13 @@
       with:title="Users">>
 <th:block layout:fragment="content">
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Users</h1>
-    <p class="mb-4">Create User </p>
+    <h1 class="h3 mb-2 text-gray-800">Faculty</h1>
+    <p class="mb-4">Create Faculty </p>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Create user</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Create Faculty</h6>
         </div>
         <div class="card-body">
             <!-- Errors -->
@@ -29,7 +29,7 @@
                 </button>
             </div>
             <!-- End of Error -->
-            <form class="user" action="#" th:action="@{/users/save}" th:object="${appUser}"
+            <form class="user" action="#" th:action="@{/faculties/save}" th:object="${faculty}"
                   method="post">
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
@@ -56,37 +56,36 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="password" class="form-control form-control-user" id="password"
-                               placeholder="Password" th:field="*{password}" required>
+                        <label for="startDate">Start Date</label>
+                        <input type="date" name="startDate" class="form-control datepicker" id="startDate" placeholder="Date Joined"
+                               th:field="*{startDate}" required>
                         <span class="validationError"
-                              th:if="${#fields.hasErrors('password')}"
-                              th:errors="*{password}">Password Error</span>
+                              th:if="${#fields.hasErrors('startDate')}"
+                              th:errors="*{startDate}">Start Date Error</span>
                     </div>
+
                     <div class="col-sm-6">
-                        <input type="password" class="form-control form-control-user" id="confirm-password"
-                               placeholder="Confirm Password" required>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                        <label>Select Role</label>
-                        <select name="role" class="form-control" th:field="*{role}">
-                            <option th:each="role : ${T(edu.mum.mumsched.users.model.Role).values()}"
-                                    th:value="${role}" th:text="${role}"></option>
-                        </select>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="check-box">
-                            <label>
-                                User Active <input type="checkbox" th:field="${appUser.active}">
-                            </label>
-                        </div>
+                        <label for="endDate">End Date</label>
+                        <input type="date" name="endDate" class="form-control datepicker" id="endDate" placeholder="End Date"
+                               th:field="*{endDate}">
+                        <span class="validationError"
+                              th:if="${#fields.hasErrors('endDate')}"
+                              th:errors="*{endDate}">End Date Error</span>
                     </div>
 
                 </div>
+                <div class="form-group">
+                        <textarea class="form-control rows=3"  id="biography"
+                               placeholder="Biography" th:field="*{biography}" required >
+                        </textarea>
+                        <span class="validationError"
+                              th:if="${#fields.hasErrors('biography')}"
+                              th:errors="*{biography}">Biography Error</span>
+                </div>
+
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                        <button id="btnAdd" type="submit" class="btn btn-primary btn-user btn-block">Add User
+                        <button id="btnAdd" type="submit" class="btn btn-primary btn-user btn-block">Add Faculty
                         </button>
                     </div>
                     <div class="col-sm-6">

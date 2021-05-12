@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:with="http://www.thymeleaf.org/extras/with"
+      layout:decorate="~{layout}"
+      with:title="Sections">>
+<th:block layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Section</h1>
+    <p class="mb-4">Create Section </p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Create Section</h6>
+        </div>
+        <div class="card-body">
+            <!-- Errors -->
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error! </strong> <span th:text="${errorMessage}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error! </strong> <span th:text="${param.error}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- End of Error -->
+            <form class="user" action="#" th:action="@{/sections/save}" th:object="${section}"
+                  method="post">
+
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <label>Select Block</label>
+                        <select name="block" class="form-control" th:field="*{block}">
+                            <option th:each="block : ${blocks}"
+                                    th:value="${block.id}" th:text="${block.name}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <label>Select Faculty</label>
+                        <select name="block" class="form-control" th:field="*{faculty}">
+                            <option th:each="faculty : ${faculties}"
+                                    th:value="${faculty.id}" th:text="${faculty.user.firstName + ' '+ faculty.user.lastName}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="number" class="form-control form-control-user" id="numberOfSeats"
+                               placeholder="Seats Available" th:field="*{numberOfSeats}" required>
+                        <span class="validationError"
+                              th:if="${#fields.hasErrors('numberOfSeats')}"
+                              th:errors="*{numberOfSeats}">Number Of Seats Error</span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <button id="btnAdd" type="submit" class="btn btn-primary btn-user btn-block">Add Section
+                        </button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button id="btnCancel" type="submit" class="btn btn-danger btn-user btn-block">Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</th:block>
+</html>

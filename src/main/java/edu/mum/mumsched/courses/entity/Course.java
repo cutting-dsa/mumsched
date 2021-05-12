@@ -1,4 +1,4 @@
-package edu.mum.mumsched.courses.domain;
+package edu.mum.mumsched.courses.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

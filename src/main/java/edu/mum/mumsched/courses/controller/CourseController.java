@@ -1,7 +1,7 @@
 package edu.mum.mumsched.courses.controller;
 
-import edu.mum.mumsched.courses.domain.Course;
-import edu.mum.mumsched.courses.service.imp.CourseService;
+import edu.mum.mumsched.courses.entity.Course;
+import edu.mum.mumsched.courses.service.CourseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class CourseController {
 
     @Autowired
-    private CourseService courseService;
+    private CourseServiceImpl courseService;
 
     @RequestMapping(value ="/courses", method = RequestMethod.GET)
     public List<Course> getAllCourses(){

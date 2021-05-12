@@ -1,8 +1,7 @@
-package edu.mum.mumsched.courses.service.imp;
+package edu.mum.mumsched.courses.service;
 
-import edu.mum.mumsched.courses.domain.Course;
+import edu.mum.mumsched.courses.entity.Course;
 import edu.mum.mumsched.courses.repository.ICourseRepository;
-import edu.mum.mumsched.courses.service.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CourseService implements ICourseService {
+public class CourseServiceImpl implements CourseService {
     @Autowired
     private ICourseRepository iCourseRepository;
 

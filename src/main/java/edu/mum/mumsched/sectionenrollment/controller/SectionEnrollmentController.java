@@ -2,11 +2,13 @@ package edu.mum.mumsched.sectionenrollment.controller;
 
 import edu.mum.mumsched.blocks.entity.Block;
 import edu.mum.mumsched.blocks.service.BlockService;
+import edu.mum.mumsched.config.security.SecurityHelper;
 import edu.mum.mumsched.sectionenrollment.domain.SectionEnrollmentParameters;
 import edu.mum.mumsched.sectionenrollment.service.SectionEnrollmentService;
 import edu.mum.mumsched.sections.model.Section;
 import edu.mum.mumsched.students.model.Student;
 import edu.mum.mumsched.students.service.StudentService;
+import edu.mum.mumsched.users.model.AppUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,16 +43,11 @@ public class SectionEnrollmentController {
 
     @RequestMapping("/enrollments")
     public String enrollments(Model model) {
-        Student student = studentService.getStudent(1L);
+        AppUser loggedUser = SecurityHelper.getLoggedInUser();
+
+        Student student = studentService.getStudentByUserId(loggedUser.getId());
         List<Block> blocks = blockService.getBlocksByEntry(student.getEntry());
         model.addAttribute("blocks", blocks);
-
-        /*
-        1. get student entry
-        2. pass the entry dates and use to filter when fetching the blocks
-         */
-
-
         return "enrollment/enrollments";
     }
 
@@ -61,11 +58,8 @@ public class SectionEnrollmentController {
         List<Section> sections = sectionEnrollmentService.getSectionsByBlockId(blockId);
         model.addAttribute("sections", sections);
 
-        /*
-        1.get sections already enrolled by student so that we can display as already enrolled
-        in a specific block
-         */
-        Student student = studentService.getStudent(1L);
+        AppUser loggedUser = SecurityHelper.getLoggedInUser();
+        Student student = studentService.getStudentByUserId(loggedUser.getId());
         Collection<Section> sectionEnrollmentsPerBlock = sectionEnrollmentService.getSectionsByStudentPerBlock(student, blockId);
 
         model.addAttribute("enrolledSections", sectionEnrollmentsPerBlock);
@@ -83,8 +77,9 @@ public class SectionEnrollmentController {
                 return HttpStatus.INTERNAL_SERVER_ERROR;
             }
 
-            //should be from authenticated user
-            Student student = studentService.getStudent(1L);
+            AppUser loggedUser = SecurityHelper.getLoggedInUser();
+            Student student = studentService.getStudentByUserId(loggedUser.getId());
+
             if (student == null) {
 //                return new ResponseEntity<String>("Sorry,an error occured. Please try again", HttpStatus.BAD_REQUEST);
                 return HttpStatus.INTERNAL_SERVER_ERROR;
@@ -108,7 +103,8 @@ public class SectionEnrollmentController {
     HttpStatus unEnrollSection(@RequestBody SectionEnrollmentParameters parameters) {
 
         Section section = sectionEnrollmentService.getSectionById(parameters.getSectionId());
-        Student student = studentService.getStudent(1L);
+        AppUser loggedUser = SecurityHelper.getLoggedInUser();
+        Student student = studentService.getStudentByUserId(loggedUser.getId());
 
         if (!student.getSections().contains(section)) {
             // student doesnt have the section already

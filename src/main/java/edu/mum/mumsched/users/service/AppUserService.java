@@ -13,6 +13,5 @@ public interface AppUserService {
     AppUser getUser(Long id) throws Exception;
     Collection<AppUser> getAllUsers();
     Collection<AppUser> getActiveUsers();
-
-
+    AppUser getUserByEmail(String email);
 }

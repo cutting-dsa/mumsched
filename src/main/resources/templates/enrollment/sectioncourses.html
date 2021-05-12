@@ -21,6 +21,7 @@
                     <tr>
                         <th>Course</th>
                         <th>Faculty</th>
+                        <th>Total Seats</th>
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Action</th>
@@ -33,6 +34,7 @@
                         <td th:with="facultyName=${section.faculty.user.firstName}
                         + ' '+ ${section.faculty.user.lastName}"
                             th:text="${facultyName}"></td>
+                        <td th:text="${section.numberOfSeats}"></td>
                         <td th:text="${section.block.startDate}"></td>
                         <td th:text="${section.block.endDate}"></td>
                         <td>

@@ -7,18 +7,23 @@ import edu.mum.mumsched.sectionenrollment.service.SectionEnrollmentService;
 import edu.mum.mumsched.sections.model.Section;
 import edu.mum.mumsched.students.model.Student;
 import edu.mum.mumsched.students.service.StudentService;
+import edu.mum.mumsched.users.model.AppUser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class SectionEnrollmentController {
-
+    public static final Logger logger = LogManager.getLogger(SectionEnrollmentController.class);
     @Autowired
     private SectionEnrollmentService sectionEnrollmentService;
 
@@ -42,9 +47,13 @@ public class SectionEnrollmentController {
     }
 
     @RequestMapping("/block-sections/{blockId}")
-    public String sectionCourses(@PathVariable("blockId") Long blockId, Model model) {
+    public String sectionCourses(@PathVariable("blockId") Long blockId,
+                                 Model model,
+                                 Principal principal) {
         List<Section> sections = sectionEnrollmentService.getSectionsByBlockId(blockId);
         model.addAttribute("sections", sections);
+        logger.info("****************");
+        logger.info(principal.getName());
         return "enrollment/sectioncourses";
     }
 

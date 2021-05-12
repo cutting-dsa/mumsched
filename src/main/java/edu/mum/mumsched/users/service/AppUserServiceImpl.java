@@ -60,4 +60,9 @@ public class AppUserServiceImpl implements AppUserService{
     public Collection<AppUser> getActiveUsers() {
         return userRepository.findAllByActiveIsTrue();
     }
+
+    @Override
+    public AppUser getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

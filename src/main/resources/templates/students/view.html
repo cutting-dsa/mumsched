@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:with="http://www.thymeleaf.org/extras/with"
+      layout:decorate="~{layout}"
+      with:title="Students">>
+<th:block layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">View Student</h1>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Update Student</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <!--                            <div th:if="${#fields.hasErrors()}">-->
+                <!--                                    <span class="validationError">-->
+                <!--                             Please correct the problems below and resubmit.-->
+                <!--                             </span>-->
+                <!--                            </div>-->
+                <form class="user" action="#"
+                      th:action="@{/students/update/{id}(id=${student.id})}"
+                      th:object="${student}"
+                      method="POST">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-user" id="firstName"
+                               placeholder="First Name" th:value="${student.user.firstName}" required>
+                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger"></span>
+                        <!--                                    <span class="validationError"-->
+                        <!--                                          th:if="${#fields.hasErrors('firstName')}"-->
+                        <!--                                          th:errors="*{student.user.firstName}">First Name Error</span>-->
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-user" id="lastName"
+                               placeholder="Last Name" th:value="${student.user.lastName}" required>
+                        <!--                                    <span class="validationError"-->
+                        <!--                                          th:if="${#fields.hasErrors('lastName')}"-->
+                        <!--                                          th:errors="*{student.user.lastName}">Last Name Error</span>-->
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control form-control-user" id="email"
+                               placeholder="Email Address" th:value="${student.user.email}" required>
+                        <!--                                    <span class="validationError"-->
+                        <!--                                          th:if="${#fields.hasErrors('student.user.email')}"-->
+                        <!--                                          th:errors="*{student.user.email}">Email Error</span>-->
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-user" id="registrationNumber"
+                               placeholder="Registration Number" th:value="${student.registrationNumber}" required>
+                        <span class="validationError"
+                              th:if="${#fields.hasErrors('registrationNumber')}"
+                              th:errors="*{student.registrationNumber}">Email Error</span>
+                    </div>
+                    <button id="btnAdd" type="submit" class="btn btn-primary btn-user btn-block">Update Student
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Course {
@@ -11,18 +12,29 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotEmpty
     private String name;
+
+    @NotEmpty
     private String code;
     private String description;
 
     public Course() {
     }
 
-    public Course(Long id, String name, String code, String description) {
-        super();
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public void setCode(String code) {
         this.code = code;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
     }
 

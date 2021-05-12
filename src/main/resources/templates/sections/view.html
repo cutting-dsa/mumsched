@@ -38,7 +38,7 @@
                     <tbody>
                     <tr th:each="section : ${sections}">
                         <td th:text="${section.id}"></td>
-                        <td th:text="Algorithms"></td>
+                        <td th:text="${section.course.name}"></td>
                         <td th:text="${section.faculty.user.firstName + ' ' + section.faculty.user.lastName}"></td>
                         <td th:text="${section.block.name}"></td>
                         <td th:text="${section.numberOfSeats}"></td>

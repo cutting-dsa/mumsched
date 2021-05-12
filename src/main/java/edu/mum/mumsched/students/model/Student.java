@@ -1,7 +1,7 @@
 package edu.mum.mumsched.students.model;
 
 import edu.mum.mumsched.entries.entity.Entry;
-import edu.mum.mumsched.sectionenrollment.domain.Section;
+import edu.mum.mumsched.sections.model.Section;
 import edu.mum.mumsched.users.model.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;

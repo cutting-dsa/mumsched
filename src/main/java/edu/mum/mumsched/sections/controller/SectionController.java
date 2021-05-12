@@ -2,6 +2,8 @@ package edu.mum.mumsched.sections.controller;
 
 import edu.mum.mumsched.blocks.entity.Block;
 import edu.mum.mumsched.blocks.service.BlockService;
+import edu.mum.mumsched.courses.entity.Course;
+import edu.mum.mumsched.courses.service.CourseService;
 import edu.mum.mumsched.faculty.model.Faculty;
 import edu.mum.mumsched.faculty.service.FacultyService;
 import edu.mum.mumsched.sections.model.Section;
@@ -31,6 +33,9 @@ public class SectionController {
     @Autowired
     private BlockService blockService;
 
+    @Autowired
+    private CourseService courseService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getSections(Model model) {
         Collection<Section> sections = sectionService.getAllSections();
@@ -58,10 +63,12 @@ public class SectionController {
 
         Collection<Faculty> faculties = facultyService.getAllFaculties();
         Collection<Block> blocks = blockService.getAllBlocks();
+        Collection<Course> courses = courseService.getAllCourses();
 
         model.addAttribute("section", section);
         model.addAttribute("blocks", blocks);
         model.addAttribute("faculties", faculties);
+        model.addAttribute("courses", courses);
         return "sections/edit";
     }
 

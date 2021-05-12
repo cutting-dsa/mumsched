@@ -2,16 +2,14 @@ package edu.mum.mumsched.sectionenrollment.controller;
 
 import edu.mum.mumsched.blocks.entity.Block;
 import edu.mum.mumsched.blocks.service.BlockService;
-import edu.mum.mumsched.sectionenrollment.domain.Section;
 import edu.mum.mumsched.sectionenrollment.domain.SectionEnrollmentParameters;
 import edu.mum.mumsched.sectionenrollment.service.SectionEnrollmentService;
-import edu.mum.mumsched.students.model.DeleteStudentParameters;
+import edu.mum.mumsched.sections.model.Section;
 import edu.mum.mumsched.students.model.Student;
 import edu.mum.mumsched.students.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

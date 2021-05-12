@@ -1,6 +1,7 @@
 package edu.mum.mumsched.sections.model;
 
 import edu.mum.mumsched.blocks.entity.Block;
+import edu.mum.mumsched.courses.entity.Course;
 import edu.mum.mumsched.faculty.model.Faculty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,5 +31,9 @@ public class Section {
 
     @Column(name = "number_of_seats")
     private Long numberOfSeats;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    private Course course;
 
 }

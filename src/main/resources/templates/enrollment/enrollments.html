@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:with="http://www.thymeleaf.org/extras/with"
+      layout:decorate="~{layout}"
+      with:title="Enrollments">>
+<th:block layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Section Blocks</h1>
+    <p class="mb-4">List of all Section Blocks </p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">All Section Blocks</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive"> <!-- th:if="${not #lists.isEmpty(users)}" -->
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="block : ${blocks}">
+                        <td th:text="${block.getName()}"></td>
+                        <td th:text="${block.startDate}"></td>
+                        <td th:text="${block.endDate}"></td>
+                        <td>
+                            <a th:href="@{/block-sections/{id}(id=${block.getId()})}"
+                               class="btn btn-success btn-primary">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

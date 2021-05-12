@@ -44,9 +44,9 @@
             <span>Faculty</span>
         </a>
 
-        <a class="nav-link" th:href="@{/faculties}">
-            <i class="fas fa-fw fa-plus"></i>
-            <span>Sections</span>
+        <a th:if="${#authorization.expression('hasAuthority(''STUDENT'')')}" class="nav-link" th:href="@{/enrollments}">
+            <i class="fas fa-fw fa-address-card"></i>
+            <span>Register Sections</span>
         </a>
     </li>
 

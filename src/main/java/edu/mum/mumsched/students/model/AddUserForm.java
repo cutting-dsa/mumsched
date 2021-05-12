@@ -1,5 +1,6 @@
 package edu.mum.mumsched.students.model;
 
+import edu.mum.mumsched.entries.entity.Entry;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -23,4 +24,7 @@ public class AddUserForm {
     @NotBlank(message = "Sorry, email cannot be blank")
     @Email
     private String email;
+
+    @NonNull
+    private Long entryId;
 }

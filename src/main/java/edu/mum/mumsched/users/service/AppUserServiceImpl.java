@@ -3,7 +3,6 @@ package edu.mum.mumsched.users.service;
 import edu.mum.mumsched.config.exceptions.NotFoundException;
 import edu.mum.mumsched.users.model.AppUser;
 import edu.mum.mumsched.users.repository.AppUserRepository;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,11 +19,11 @@ public class AppUserServiceImpl implements AppUserService{
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     @Override
-    public void save(AppUser user) {
-        String password = encoder.encode(user.getPassword());
-        user.setPassword(password);
+    public AppUser save(AppUser user) {
+            String password = encoder.encode(user.getPassword());
+            user.setPassword(password);
 
-        userRepository.save(user);
+            return userRepository.save(user);
     }
 
     @Override

@@ -41,14 +41,13 @@
 
                             <span th:switch="${enrolledSections.contains(section)}">
 
-                                <button th:case="true" th:onclick="'enrollSection(\''+ ${section.id}+'\');'"
-                                        id="unblock"
+                                <button th:case="true" th:onclick="'unEnrollSection(\''+ ${section.id}+'\');'"
                                         class="btn btn-danger"><i
                                         class="fas fa-times"></i> Already Enrolled
                             </button>
 
                                 <button th:case="false" th:onclick="'enrollSection(\''+ ${section.id}+'\');'"
-                                        id="unblock"
+                                        th:disabled="${!enrolledSections.isEmpty()}"
                                         class="btn btn-success"><i
                                         class="fas fa-plus"></i> Enroll
                             </button>
@@ -114,6 +113,65 @@
                         request.fail(function (data, textStatus, xhr) {
                             console.log("Request failed: " + textStatus + xhr.status);
                             swal("Section enrollment failed. Try again.");
+                        });
+                    } else {
+                        swal.close();
+                    }
+                });
+        };
+
+        function unEnrollSection(sectionId) {
+            swal({
+                    title: "Are you sure want to unenroll from this section?",
+                    text: "This section will be removed as your enrollment in this block",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-success",
+                    cancelButtonClass: "btn-danger",
+                    confirmButtonText: "Confirm",
+                    cancelButtonText: "Cancel",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function (isConfirm) {
+                    let parameterObject = {};
+                    parameterObject["sectionId"] = sectionId;
+                    if (isConfirm) {
+                        let request = $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            url: "/unenroll-section",
+                            method: "POST",
+                            data: JSON.stringify(parameterObject),
+                            dataType: "json"
+                        });
+
+                        request.done(function (data) {
+                            console.log(data)
+                            if (data === "OK") {
+                                swal({
+                                        title: "Success",
+                                        text: "Section removed successful!",
+                                        type: "success",
+                                        showCancelButton: false,
+                                        confirmButtonClass: "btn-success",
+                                        confirmButtonText: "Ok"
+                                    },
+                                    function () {
+                                        window.location.reload();
+                                        swal.hide();
+                                    })
+                            } else {
+                                swal("Section unenrollment failed. Try again.");
+                            }
+
+                        });
+
+                        request.fail(function (data, textStatus, xhr) {
+                            console.log("Request failed: " + textStatus + xhr.status);
+                            swal("Section unenrollment failed. Try again.");
                         });
                     } else {
                         swal.close();

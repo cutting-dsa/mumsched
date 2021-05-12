@@ -36,4 +36,14 @@ public class Section {
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 
+    @Override
+    public String toString() {
+        return "Section{" +
+                "id=" + id +
+                ", faculty=" + faculty +
+                ", block=" + block +
+                ", numberOfSeats=" + numberOfSeats +
+                ", course=" + course +
+                '}';
+    }
 }

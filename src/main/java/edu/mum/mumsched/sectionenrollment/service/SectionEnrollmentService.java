@@ -13,4 +13,7 @@ public interface SectionEnrollmentService {
     void enrollStudentSection(Section section, Student student);
     boolean studentAlreadyEnrolledInSection(Section section, Student student);
     Collection<Section> getSectionsByStudent(Student student);
+    void unEnrollStudentSection(Section section, Student student);
+
+    Collection<Section> getSectionsByStudentPerBlock(Student student, Long blockId);
 }

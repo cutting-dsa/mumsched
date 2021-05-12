@@ -27,16 +27,6 @@ public class DefaultController {
     @RequestMapping("/home")
     public String index(Model model) {
 
-        // Logged In User
-        /*SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            CustomUserDetails customUser = (CustomUserDetails) authentication.getPrincipal();
-        }*/
-
-        AppUser user = SecurityHelper.getLoggedInUser();
-
         return "layout";
     }
 

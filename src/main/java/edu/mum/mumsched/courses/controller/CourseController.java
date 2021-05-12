@@ -55,7 +55,7 @@ public class CourseController {
     }
 
     @RequestMapping(value ="/courses/{id}", method = RequestMethod.DELETE)
-    public String deleteCourse(@PathVariable Long id, BindingResult result, Model model){
+    public String delete(@PathVariable Long id, BindingResult result, Model model){
         if(result.hasErrors())
             return "courses/view";
 

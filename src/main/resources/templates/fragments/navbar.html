@@ -39,7 +39,11 @@
             <span>Courses</span>
         </a>
 
-        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/faculties}">
+        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/students}">
+            <i class="fas fa-fw fa-plus"></i>
+            <span>Students</span>
+        </a>
+        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/faculties/}">
             <i class="fas fa-fw fa-plus"></i>
             <span>Faculty</span>
         </a>
@@ -47,6 +51,10 @@
         <a th:if="${#authorization.expression('hasAuthority(''STUDENT'')')}" class="nav-link" th:href="@{/enrollments}">
             <i class="fas fa-fw fa-address-card"></i>
             <span>Register Sections</span>
+        </a>
+        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/sections/}">
+            <i class="fas fa-fw fa-plus"></i>
+            <span>Sections</span>
         </a>
     </li>
 

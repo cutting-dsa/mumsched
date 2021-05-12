@@ -20,11 +20,7 @@
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                          >
-<!--                        th:text="${#authentication.getPrincipal().authorities[0]}"-->
-                        User
-                    </span>
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span><!-- th:if="${#authentication.getPrincipal().authories != null}" th:text="${#authentication.getPrincipal().authorities[0]}"-->
                     <img class="img-profile rounded-circle"
                          th:src="@{/img/undraw_profile.svg}">
                 </a>

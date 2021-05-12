@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:with="http://www.thymeleaf.org/extras/with"  layout:decorate="~{layout}"
+      with:title="Courses">>
+<th:block layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Courses</h1>
+    <p class="mb-4">Create Course </p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Create Course</h6>
+        </div>
+        <div class="card-body">
+            <form class="course" action="#" th:action="@{/courses/create}" th:object="${newcourse}"
+                  method="post">
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="text" class="form-control form-control-user" id="code"
+                               placeholder="Course Code:" th:field="*{code}" required>
+                        <span class="validationError"
+                              th:if="${#fields.hasErrors('code')}"
+                              th:errors="*{code}">Course Code Error</span>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control form-control-user" id="name"
+                               placeholder="Course Name" th:field="*{name}" required>
+                        <span class="validationError"
+                              th:if="${#fields.hasErrors('name')}"
+                              th:errors="*{name}">Course Name Error</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="description"
+                           placeholder="Course Description" th:field="*{description}" required>
+                    <span class="validationError"
+                          th:if="${#fields.hasErrors('description')}"
+                          th:errors="*{description}">Course Description Error</span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <button id="btnAdd" type="submit" class="btn btn-primary btn-user btn-block">Add Course
+                        </button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button id="btnCancel" type="submit" class="btn btn-danger btn-user btn-block">Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</th:block>
+</html>

@@ -1,5 +1,6 @@
 package edu.mum.mumsched.users.controller;
 
+import edu.mum.mumsched.config.exceptions.GeneralException;
 import edu.mum.mumsched.users.model.AppUser;
 import edu.mum.mumsched.users.model.Role;
 import edu.mum.mumsched.users.service.AppUserService;
@@ -50,12 +51,11 @@ public class UserController {
                        BindingResult result,
                        Model model) {
 
-        if(result.hasErrors()) {
-            //log.info("I have reached here");
-            return "users/create";
+        try {
+            userService.save(user);
+        }catch (Exception ex){
+            throw new GeneralException(ex.getMessage());
         }
-
-        userService.save(user);
 
         return "redirect:/users/";
     }

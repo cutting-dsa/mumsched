@@ -1,7 +1,6 @@
 package edu.mum.mumsched.sectionenrollment.domain;
 
 import edu.mum.mumsched.blocks.entity.Block;
-import edu.mum.mumsched.users.model.AppUser;
 import lombok.Data;
 
 import javax.persistence.*;

@@ -50,4 +50,9 @@ public class EntryServiceImpl implements EntryService{
         }
         repository.deleteById(id);
     }
+
+    @Override
+    public Entry getEntryById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
 }

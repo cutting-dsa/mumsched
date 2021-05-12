@@ -9,4 +9,5 @@ public interface EntryService {
     List<Entry> getAllEntries();
     void edit(Entry entry) throws Exception;
     void delete(Long id) throws Exception;
+    Entry getEntryById(Long id);
 }

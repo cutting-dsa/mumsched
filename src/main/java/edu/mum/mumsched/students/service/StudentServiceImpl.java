@@ -3,6 +3,7 @@ package edu.mum.mumsched.students.service;
 import edu.mum.mumsched.core.BadRequestException;
 import edu.mum.mumsched.students.model.Student;
 import edu.mum.mumsched.students.repository.StudentRepository;
+import edu.mum.mumsched.users.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,11 @@ public class StudentServiceImpl implements StudentService {
     public Student getStudent(Long id) {
         if (id == null) throw new BadRequestException("Student id cannot be null");
         return studentRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Student getStudentByUserId(Long id) {
+        return studentRepository.getStudentByUserId(id);
     }
 
     @Override

@@ -1,9 +1,7 @@
 package edu.mum.mumsched.faculty.controller;
 
-import edu.mum.mumsched.config.exceptions.GeneralException;
 import edu.mum.mumsched.faculty.model.Faculty;
 import edu.mum.mumsched.faculty.service.FacultyService;
-import edu.mum.mumsched.users.model.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

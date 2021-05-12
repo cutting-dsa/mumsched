@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -46,5 +47,10 @@ public class SectionEnrollmentServiceImpl implements SectionEnrollmentService{
     @Override
     public boolean studentAlreadyEnrolledInSection(Section section, Student student) {
         return student.getSections().contains(section);
+    }
+
+    @Override
+    public Collection<Section> getSectionsByStudent(Student student) {
+        return student.getSections();
     }
 }

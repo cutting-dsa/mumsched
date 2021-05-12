@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -43,17 +44,35 @@ public class SectionEnrollmentController {
     public String enrollments(Model model) {
         List<Block> blocks = blockService.getAllBlocks();
         model.addAttribute("blocks", blocks);
+
+        /*
+        1. get student entry
+        2. pass the entry dates and use to filter when fetching the blocks
+         */
+
+
         return "enrollment/enrollments";
     }
 
     @RequestMapping("/block-sections/{blockId}")
     public String sectionCourses(@PathVariable("blockId") Long blockId,
-                                 Model model,
-                                 Principal principal) {
+                                 Model model) {
         List<Section> sections = sectionEnrollmentService.getSectionsByBlockId(blockId);
         model.addAttribute("sections", sections);
-        logger.info("****************");
-        logger.info(principal.getName());
+
+//        logger.info("****************");
+//        logger.info(principal.getName());
+
+
+        /*
+        1.get sections already enrolled by student so that we can display as already enrolled
+        in a specific block
+         */
+        Student student = studentService.getStudent(1L);
+        Collection<Section> enrolledSectionsByStudent = sectionEnrollmentService.getSectionsByStudent(student);
+
+        model.addAttribute("enrolledSections", enrolledSectionsByStudent);
+
         return "enrollment/sectioncourses";
     }
 

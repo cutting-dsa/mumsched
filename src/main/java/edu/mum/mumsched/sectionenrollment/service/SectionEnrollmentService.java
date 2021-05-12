@@ -12,4 +12,5 @@ public interface SectionEnrollmentService {
     Section getSectionById(Long id);
     void enrollStudentSection(Section section, Student student);
     boolean studentAlreadyEnrolledInSection(Section section, Student student);
+    Collection<Section> getSectionsByStudent(Student student);
 }

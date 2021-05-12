@@ -38,10 +38,21 @@
                         <td th:text="${section.block.startDate}"></td>
                         <td th:text="${section.block.endDate}"></td>
                         <td>
-                            <button th:onclick="'enrollSection(\''+ ${section.id}+'\');'" id="unblock"
-                                    class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Enroll
+
+                            <span th:switch="${enrolledSections.contains(section)}">
+
+                                <button th:case="true" th:onclick="'enrollSection(\''+ ${section.id}+'\');'"
+                                        id="unblock"
+                                        class="btn btn-danger"><i
+                                        class="fas fa-times"></i> Already Enrolled
                             </button>
+
+                                <button th:case="false" th:onclick="'enrollSection(\''+ ${section.id}+'\');'"
+                                        id="unblock"
+                                        class="btn btn-success"><i
+                                        class="fas fa-plus"></i> Enroll
+                            </button>
+                            </span>
                         </td>
                     </tr>
                     </tbody>

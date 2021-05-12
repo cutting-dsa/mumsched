@@ -13,8 +13,8 @@
             <h6 class="m-0 font-weight-bold text-primary">Create Course</h6>
         </div>
         <div class="card-body">
-            <form class="course" action="#" th:action="@{/courses/save}" th:object="${newcourse}"
-                  method="get">
+            <form class="course" action="#" th:action="@{/courses/create}" th:object="${newcourse}"
+                  method="post">
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <input type="text" class="form-control form-control-user" id="courseCode"
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="email" class="form-control form-control-user" id="coursedescription"
+                    <input type="text" class="form-control form-control-user" id="coursedescription"
                            placeholder="Course Description" th:field="*{description}" required>
                     <span class="validationError"
                           th:if="${#fields.hasErrors('description')}"

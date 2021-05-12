@@ -25,16 +25,20 @@ public class CourseController {
         return "courses/view";
     }
 
-    @RequestMapping(value ="/courses/create", method = RequestMethod.GET)
+    @RequestMapping(value ="/courses/create")
     public String getCourse(Model model) {
         model.addAttribute("newcourse", new Course());
         return "courses/create";
     }
 
-    @RequestMapping(value ="/courses", method = RequestMethod.POST)
-    public String createCourse(Model model, @RequestBody Course course){
-       //Course newCourse = courseService.addCourse(course);
-       //model.addAttribute("newCourse", newCourse);
+    @RequestMapping(value ="/courses/create", method = RequestMethod.POST)
+    public String createCourse(@ModelAttribute("newcourse") @Valid Course course,
+                               BindingResult result,
+                               Model model){
+        if (result.hasErrors())
+            return "courses/create";
+
+       courseService.addCourse(course);
        return  "redirect:/courses";
     }
 

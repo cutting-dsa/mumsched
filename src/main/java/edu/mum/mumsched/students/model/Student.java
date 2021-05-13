@@ -53,5 +53,7 @@ public class Student implements Serializable {
     @JoinTable(name = "student_section", joinColumns = {@JoinColumn(name = "student_id")}, inverseJoinColumns = {@JoinColumn(name = "section_id")})
     private Collection<Section> sections;
 
+    @Column(name = "track", nullable = false)
+    private String track;
 
 }

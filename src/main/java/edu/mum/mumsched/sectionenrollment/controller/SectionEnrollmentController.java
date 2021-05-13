@@ -48,7 +48,7 @@ public class SectionEnrollmentController {
 
         Student student = studentService.getStudentByUserId(loggedUser.getId());
         //TODO: fetch block my student track
-        List<Block> blocks = blockService.getBlocksByEntry(student.getEntry());
+        List<Block> blocks = blockService.getBlocksByEntry(student);
         model.addAttribute("blocks", blocks);
         return "enrollment/enrollments";
     }
@@ -104,6 +104,21 @@ public class SectionEnrollmentController {
         Section section = sectionEnrollmentService.getSectionById(parameters.getSectionId());
         AppUser loggedUser = SecurityHelper.getLoggedInUser();
         Student student = studentService.getStudentByUserId(loggedUser.getId());
+
+        if (!student.getSections().contains(section)) {
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        } else {
+            sectionEnrollmentService.unEnrollStudentSection(section, student);
+            return HttpStatus.OK;
+        }
+    }
+
+    @PostMapping(value = "/unenroll-student-section/{studentId}/{sectionId}", consumes = "application/json", produces = "application/json")
+    public @ResponseBody
+    HttpStatus unEnrollStudentSection(@PathVariable("studentId") Long studentId, @PathVariable("sectionId") Long sectionId) {
+
+        Section section = sectionEnrollmentService.getSectionById(sectionId);
+        Student student = studentService.getStudentByUserId(studentId);
 
         if (!student.getSections().contains(section)) {
             return HttpStatus.INTERNAL_SERVER_ERROR;

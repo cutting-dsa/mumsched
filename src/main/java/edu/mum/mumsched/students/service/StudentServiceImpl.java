@@ -4,6 +4,7 @@ import edu.mum.mumsched.core.BadRequestException;
 import edu.mum.mumsched.entries.entity.Entry;
 import edu.mum.mumsched.students.model.AtomicBigInteger;
 import edu.mum.mumsched.students.model.Student;
+import edu.mum.mumsched.students.model.Track;
 import edu.mum.mumsched.students.repository.StudentRepository;
 import edu.mum.mumsched.users.model.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student createStudent(Entry entry, AppUser user, AppUser loggedUser) {
+    public Student createStudent(Entry entry, Track track, AppUser user, AppUser loggedUser) {
         Student newStudent = new Student();
         newStudent.setUser(user);
         newStudent.setActive(true);
@@ -84,6 +85,7 @@ public class StudentServiceImpl implements StudentService {
         newStudent.setEntry(entry);
         newStudent.setCreatedBy(loggedUser);
         newStudent.setHasRegisteredCourses(true);
+        newStudent.setTrack(track.name());
         return save(newStudent);
     }
 

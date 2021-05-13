@@ -30,6 +30,9 @@ public class AddStudentForm {
     @NonNull
     private Long entryId;
 
+    @NonNull
+    private Track track;
+
     public AppUser toUser() {
         AppUser newUser = new AppUser();
         newUser.setActive(true);

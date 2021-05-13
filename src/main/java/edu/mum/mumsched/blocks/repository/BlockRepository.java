@@ -18,6 +18,6 @@ public interface BlockRepository extends CrudRepository<Block, Long> {
 
     List<Block> findBlockByDateAfter(LocalDate from);
 
-    List<Block> findTopByDateAfter(Integer limit, LocalDate from);
-    //5 for mpp and 6 for fpp
+    List<Block> findTop5ByDateAfter(LocalDate from);
+    List<Block> findTop6ByDateAfter(LocalDate from);
 }

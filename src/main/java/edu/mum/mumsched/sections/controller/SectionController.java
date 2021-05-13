@@ -8,6 +8,7 @@ import edu.mum.mumsched.faculty.model.Faculty;
 import edu.mum.mumsched.faculty.service.FacultyService;
 import edu.mum.mumsched.sections.model.Section;
 import edu.mum.mumsched.sections.service.SectionService;
+import edu.mum.mumsched.students.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collection;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sections")
@@ -102,4 +103,13 @@ public class SectionController {
 
         sectionService.delete(id);
     }
+
+    @RequestMapping(value = "/members/{id}", method = RequestMethod.GET)
+    public String getSectionMembers(Model model, @PathVariable("id") Long id) {
+        List<Student> studentList = sectionService.getSectionMembers(id);
+        model.addAttribute("members", studentList);
+        model.addAttribute("section", sectionService.getSection(id));
+        return "sections/members";
+    }
+
 }

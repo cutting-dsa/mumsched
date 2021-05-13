@@ -6,6 +6,7 @@ import edu.mum.mumsched.entries.service.EntryService;
 import edu.mum.mumsched.students.model.AddStudentForm;
 import edu.mum.mumsched.students.model.DeleteStudentParameters;
 import edu.mum.mumsched.students.model.Student;
+import edu.mum.mumsched.students.model.Track;
 import edu.mum.mumsched.students.service.StudentService;
 import edu.mum.mumsched.users.model.AppUser;
 import edu.mum.mumsched.users.service.AppUserService;
@@ -60,6 +61,7 @@ public class StudentController {
         List<Entry> entries = entryService.getAllEntries();
         model.addAttribute("student", student);
         model.addAttribute("entries", entries);
+        model.addAttribute("tracks", Track.values());
         return "students/create";
     }
 
@@ -76,7 +78,7 @@ public class StudentController {
         AppUser user = userService.getUserByEmail(newUser.getEmail());
         AppUser loggedUser = SecurityHelper.getLoggedInUser();
 
-        studentService.createStudent(entry, user, loggedUser);
+        studentService.createStudent(entry, student.getTrack(), user, loggedUser);
 
         return "redirect:/students";
     }

@@ -16,7 +16,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" th:href="@{/home}">
+        <a class="nav-link" th:href="@{/dashboard}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -56,7 +56,8 @@
             <i class="fas fa-fw fa-plus"></i>
             <span>Sections</span>
         </a>
-        <a th:if="${#authorization.expression('hasAuthority(''FACULTY'')')}" class="nav-link" th:href="@{/faculties/courses/}">
+        <a th:if="${#authorization.expression('hasAuthority(''FACULTY'')')}" class="nav-link"
+           th:href="@{/faculties/courses/}">
             <i class="fas fa-fw fa-plus"></i>
             <span>Select Courses</span>
         </a>

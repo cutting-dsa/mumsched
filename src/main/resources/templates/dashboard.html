@@ -9,8 +9,52 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
     </div>
+    <span th:switch="${student != null}">
 
-    <!-- Content Row -->
+        <div th:case="true">
+                <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Selected sections</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div th:if="${ not#lists.isEmpty(sections)}">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Faculty</th>
+                        <th>Total Seats</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="section : ${sections}">
+                        <td th:text="${section.course.getName()}"></td>
+                        <td th:with="facultyName=${section.faculty.user.firstName}
+                        + ' '+ ${section.faculty.user.lastName}"
+                            th:text="${facultyName}"></td>
+                        <td th:text="${section.numberOfSeats}"></td>
+                        <td th:text="${section.block.startDate}"></td>
+                        <td th:text="${section.block.endDate}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+                <div th:if="${ #lists.isEmpty(sections)}">
+                    <div class="">
+                    <label>Dear <span th:text="${student.user.firstName}"></span>, You have not selected your courses. Please <a th:href="@{/enrollments}">click here</a>  to select.</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+
+          <div th:case="false">
+               <!-- Content Row -->
     <div class="row">
 
         <!-- Earnings (Monthly) Card Example -->
@@ -88,9 +132,7 @@
             </div>
         </div>
     </div>
-
-    <!-- Content Row -->
-
+              <!-- Content Row -->
     <div class="row">
 
         <!-- Area Chart -->
@@ -127,6 +169,12 @@
             </div>
         </div>
     </div>
+
+        </div>
+
+    </span>
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script th:inline="javascript">

@@ -62,12 +62,8 @@ public class SectionEnrollmentServiceImpl implements SectionEnrollmentService{
 
     @Override
     public void unEnrollStudentSection(Section section, Student student) {
-        logger.info("***************************");
-        logger.info(section);
-        logger.info(student);
         student.getSections().remove(section);
         studentRepository.save(student);
-        logger.info(student);
     }
 
     @Override

@@ -7,13 +7,11 @@ import edu.mum.mumsched.courses.service.CourseService;
 import edu.mum.mumsched.facultycourses.model.FacultyCourse;
 import edu.mum.mumsched.facultycourses.service.FacultyCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -98,16 +96,9 @@ public class FacultyCourseController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public String delete(@PathVariable("id") Long id,
-                         BindingResult result,
-                         Model model) {
-
-        if(result.hasErrors()) {
-            return "faculties/courses/view";
-        }
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
 
         facultyCourseService.delete(id);
-
-        return "redirect:/faculties/courses/";
     }
 }

@@ -9,13 +9,11 @@ import edu.mum.mumsched.faculty.service.FacultyService;
 import edu.mum.mumsched.sections.model.Section;
 import edu.mum.mumsched.sections.service.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -49,10 +47,12 @@ public class SectionController {
         Collection<Faculty> faculties = facultyService.getAllFaculties();
 
         Collection<Block> blocks = blockService.getAllBlocks();
+        Collection<Course> courses = courseService.getAllCourses();
 
         model.addAttribute("section", new Section());
         model.addAttribute("blocks", blocks);
         model.addAttribute("faculties", faculties);
+        model.addAttribute("courses", courses);
 
         return "sections/create";
     }
@@ -97,16 +97,9 @@ public class SectionController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public String delete(@PathVariable("id") Long id,
-                         BindingResult result,
-                         Model model) {
-
-        if(result.hasErrors()) {
-            return "sections/view";
-        }
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
 
         sectionService.delete(id);
-
-        return "redirect:/sections/";
     }
 }

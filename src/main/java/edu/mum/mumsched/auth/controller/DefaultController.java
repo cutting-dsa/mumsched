@@ -27,7 +27,7 @@ public class DefaultController {
     @RequestMapping("/home")
     public String index(Model model) {
 
-        return "layout";
+        return "redirect:/dashboard";
     }
 
     // Login form

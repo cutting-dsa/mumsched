@@ -49,6 +49,14 @@
                                     th:value="${entry.id}" th:text="${entry.name}"></option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label>Select Track</label>
+                        <select name="track" class="form-control" th:field="*{track}">
+                            <option th:each="track : ${tracks}"
+                                    th:value="${track}" th:text="${track}"></option>
+                        </select>
+                    </div>
                     <button id="btnAdd" type="submit" class="btn btn-primary btn-user btn-block">Add Student
                     </button>
                 </form>

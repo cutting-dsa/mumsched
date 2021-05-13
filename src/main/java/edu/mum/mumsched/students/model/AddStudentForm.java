@@ -1,6 +1,8 @@
 package edu.mum.mumsched.students.model;
 
 import edu.mum.mumsched.entries.entity.Entry;
+import edu.mum.mumsched.users.model.AppUser;
+import edu.mum.mumsched.users.model.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -11,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Data
 @NoArgsConstructor
-public class AddUserForm {
+public class AddStudentForm {
     @NonNull
     @NotBlank(message = "Sorry, first name cannot be blank")
     private String firstName;
@@ -27,4 +29,18 @@ public class AddUserForm {
 
     @NonNull
     private Long entryId;
+
+    @NonNull
+    private Track track;
+
+    public AppUser toUser() {
+        AppUser newUser = new AppUser();
+        newUser.setActive(true);
+        newUser.setEmail(this.getEmail());
+        newUser.setPassword("secret");
+        newUser.setFirstName(this.getFirstName());
+        newUser.setLastName(this.getLastName());
+        newUser.setRole(Role.STUDENT.name());
+        return newUser;
+    }
 }

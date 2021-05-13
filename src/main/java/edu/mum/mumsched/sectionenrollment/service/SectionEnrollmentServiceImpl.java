@@ -1,6 +1,5 @@
 package edu.mum.mumsched.sectionenrollment.service;
 
-import edu.mum.mumsched.sectionenrollment.controller.SectionEnrollmentController;
 import edu.mum.mumsched.sectionenrollment.repository.SectionEnrollmentRepository;
 import edu.mum.mumsched.sections.model.Section;
 import edu.mum.mumsched.students.model.Student;

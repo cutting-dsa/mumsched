@@ -12,4 +12,5 @@ public interface BlockRepository extends CrudRepository<Block, Long> {
     List<Block> findByOrderByIdDesc();
     List<Block> findByDateBetween(LocalDate from, LocalDate to);
     Block findByDate(LocalDate date);
+    List<Block> findBlockByDateAfter(LocalDate from);
 }

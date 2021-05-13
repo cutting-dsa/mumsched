@@ -10,6 +10,7 @@ import java.util.*;
 public interface StudentService {
     List<Student> getStudents();
     Student getStudent(Long id);
+    Student getStudentByUserId(Long id);
     Student updateStudent(Long id, Student student);
     Student deleteStudent(Student student);
     Student save(Student student);

@@ -9,4 +9,6 @@ import java.math.BigInteger;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query("select max(s.registrationNumber) as registrationNumber from Student s")
     BigInteger getMostRecentRegistration();
+
+    Student getStudentByUserId(Long id);
 }

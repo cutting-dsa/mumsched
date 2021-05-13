@@ -55,5 +55,8 @@ public class BlockServiceImpl implements BlockService {
                 .orElseThrow(() -> new NotFoundException("Block with id " + id + " is not found"));
     }
 
-
+    @Override
+    public List<Block> getBlocksByEntry(Entry entry) {
+        return repository.findBlockByDateAfter(entry.getDate());
+    }
 }

@@ -1,8 +1,10 @@
 package edu.mum.mumsched.sections.service;
 
 import edu.mum.mumsched.sections.model.Section;
+import edu.mum.mumsched.students.model.Student;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface SectionService {
 
@@ -11,6 +13,5 @@ public interface SectionService {
     void delete(Long id);
     Section getSection(Long id);
     Collection<Section> getAllSections();
-
-
+    List<Student> getSectionMembers(Long id);
 }

@@ -1,6 +1,5 @@
 package edu.mum.mumsched.sectionenrollment.service;
 
-import edu.mum.mumsched.sectionenrollment.controller.SectionEnrollmentController;
 import edu.mum.mumsched.sectionenrollment.repository.SectionEnrollmentRepository;
 import edu.mum.mumsched.sections.model.Section;
 import edu.mum.mumsched.students.model.Student;
@@ -62,12 +61,8 @@ public class SectionEnrollmentServiceImpl implements SectionEnrollmentService{
 
     @Override
     public void unEnrollStudentSection(Section section, Student student) {
-        logger.info("***************************");
-        logger.info(section);
-        logger.info(student);
         student.getSections().remove(section);
         studentRepository.save(student);
-        logger.info(student);
     }
 
     @Override

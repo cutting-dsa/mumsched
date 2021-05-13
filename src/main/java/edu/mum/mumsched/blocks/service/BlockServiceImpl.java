@@ -57,6 +57,6 @@ public class BlockServiceImpl implements BlockService {
 
     @Override
     public List<Block> getBlocksByEntry(Entry entry) {
-        return repository.findBlockByDateAfter(entry.getDate());
+        return repository.findTopByDateAfter(5,entry.getDate());
     }
 }

@@ -1,8 +1,9 @@
-package edu.mum.mumsched.dashboard;
+package edu.mum.mumsched.dashboard.controller;
 
 import edu.mum.mumsched.config.security.SecurityHelper;
 import edu.mum.mumsched.courses.entity.Course;
 import edu.mum.mumsched.courses.service.CourseService;
+import edu.mum.mumsched.dashboard.service.DashboardService;
 import edu.mum.mumsched.entries.entity.Entry;
 import edu.mum.mumsched.entries.service.EntryService;
 import edu.mum.mumsched.faculty.model.Faculty;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class DashboardController {
@@ -34,6 +33,10 @@ public class DashboardController {
 
     @Autowired
     CourseService courseService;
+
+    @Autowired
+    DashboardService dashboardService;
+
 
     @RequestMapping("/dashboard")
     public String getDashboard(Model model) {
@@ -65,25 +68,7 @@ public class DashboardController {
         model.addAttribute("entryList", entryList);
         model.addAttribute("courseList", courseList);
 
-        model.addAttribute("chartData", getEntryChartData());
-        model.addAttribute("sectionData", getSectionChartData());
+        model.addAttribute("chartData", dashboardService.getEntryChartData());
+        model.addAttribute("sectionData", dashboardService.getSectionChartData());
     }
-
-    private Map<String, Long> getSectionChartData() {
-        return studentService
-                .getStudents()
-                .stream()
-                .flatMap(student -> student.getSections()
-                        .stream())
-                .collect(Collectors.groupingBy(section -> section.getCourse().getName(), Collectors.counting()));
-
-    }
-
-    private Map<String, Long> getEntryChartData() {
-        return entryService
-                .getAllEntries()
-                .stream()
-                .collect(Collectors.groupingBy((Entry::getName), Collectors.summingLong(Entry::getCapacity)));
-    }
-
 }

@@ -7,53 +7,47 @@
 <th:block layout:fragment="content">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Faculty</h1>
-        <a th:href="@{/faculties/create}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-download fa-sm text-white-50"></i> Create Faculty</a>
+        <h1 class="h3 mb-0 text-gray-800">Courses to teach</h1>
+        <a th:href="@{/faculties/courses/create}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Selected courses to teach</a>
     </div>
     <!-- End Page Heading -->
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">All faculty</h6>
+            <h6 class="m-0 font-weight-bold text-primary">All Courses</h6>
 
         </div>
         <div class="card-body">
-            <div class="table-responsive" th:if="${not #lists.isEmpty(faculties)}">
+            <div class="table-responsive" th:if="${not #lists.isEmpty(facultyCourses)}">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Staff ID</th>
-                        <th>Biography</th>
+                        <th>Block</th>
+                        <th>Year</th>
                         <th>Start Date</th>
                         <th>End Date</th>
-                        <th>Account</th>
+                        <th>Course</th>
                         <th>Action</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    <tr th:each="faculty : ${faculties}">
-                        <td th:text="${faculty.id}"></td>
-                        <td th:text="${faculty.user.firstName}"></td>
-                        <td th:text="${faculty.user.lastName}"></td>
-                        <td th:text="${faculty.user.email}"></td>
-                        <td th:text="${faculty.staffId}"></td>
-                        <td th:text="${faculty.biography}"></td>
-                        <td th:text="${faculty.startDate}"></td>
-                        <td th:text="${faculty.endDate}"></td>
-                        <td th:if="${faculty.user != null}" th:text="Yes"></td>
+                    <tr th:each="facultyCourse : ${facultyCourses}">
+                        <td th:text="${facultyCourse.id}"></td>
+                        <td th:text="${facultyCourse.block.name}"></td>
+                        <td th:text="${#temporals.monthName(facultyCourse.block.startDate)}"></td>
+                        <td th:text="${facultyCourse.block.startDate}"></td>
+                        <td th:text="${facultyCourse.block.endDate}"></td>
+                        <td th:text="${facultyCourse.course.name}"></td>
                         <td>
-                            <a th:href="@{/faculties/edit/{id}(id=${faculty.id})}"
+                            <a th:href="@{/faculties/courses/edit/{id}(id=${facultyCourse.id})}"
                                class="btn btn-success btn-circle">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <button th:href="@{/faculties/delete/{id}(id=${faculty.id})}" id="unblock"
+                            <button th:href="@{/faculties/courses/delete/{id}(id=${facultyCourse.id})}" id="unblock"
                                     class="btn btn-danger btn-circle"><i
                                     class="fas fa-trash"></i></button>
                         </td>

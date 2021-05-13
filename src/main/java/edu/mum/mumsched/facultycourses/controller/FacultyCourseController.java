@@ -1,7 +1,11 @@
 package edu.mum.mumsched.facultycourses.controller;
 
-import edu.mum.mumsched.faculty.model.Faculty;
-import edu.mum.mumsched.faculty.service.FacultyService;
+import edu.mum.mumsched.blocks.entity.Block;
+import edu.mum.mumsched.blocks.service.BlockService;
+import edu.mum.mumsched.courses.entity.Course;
+import edu.mum.mumsched.courses.service.CourseService;
+import edu.mum.mumsched.facultycourses.model.FacultyCourse;
+import edu.mum.mumsched.facultycourses.service.FacultyCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,54 +23,77 @@ import java.util.Collection;
 public class FacultyCourseController {
 
     @Autowired
-    FacultyService facultyService;
+    BlockService blockService;
+
+    @Autowired
+    FacultyCourseService facultyCourseService;
+
+    @Autowired
+    CourseService courseService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getFaculties(Model model) {
-        Collection<Faculty> faculties = facultyService.getAllFaculties();
-        model.addAttribute("faculties", faculties);
+    public String getFacultyCourses(Model model) {
+        Collection<FacultyCourse> facultyCourses = facultyCourseService.getAllFacultyCourses();
+        model.addAttribute("facultyCourses", facultyCourses);
         return "faculties/courses/view";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(Model model) {
-        model.addAttribute("faculty", new Faculty());
+
+        Collection<Block> blocks = blockService.getAllBlocks();
+        Collection<Course> courses = courseService.getAllCourses();
+
+        model.addAttribute("facultyCourse", new FacultyCourse());
+        model.addAttribute("blocks", blocks);
+        model.addAttribute("courses", courses);
+
         return "faculties/courses/create";
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String edit(Model model, @PathVariable("id") Long id) {
-        Faculty faculty = facultyService.getFaculty(id);
 
-        faculty.setFirstName(faculty.getUser().getFirstName());
-        faculty.setLastName(faculty.getUser().getLastName());
-        faculty.setEmail(faculty.getUser().getEmail());
+        FacultyCourse facultyCourse = facultyCourseService.getFacultyCourse(id);
 
-        model.addAttribute("faculty", faculty);
+        Collection<Block> blocks = blockService.getAllBlocks();
+        Collection<Course> courses = courseService.getAllCourses();
+
+        model.addAttribute("facultyCourse", facultyCourse);
+        model.addAttribute("blocks", blocks);
+        model.addAttribute("courses", courses);
         return "faculties/courses/edit";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(@ModelAttribute("faculty") @Valid Faculty faculty,
+    public String save(@ModelAttribute("faculty") @Valid FacultyCourse facultyCourse,
                        BindingResult result,
                        Model model) {
 
-        facultyService.save(faculty);
+        facultyCourseService.save(facultyCourse);
 
         return "redirect:/faculties/courses/";
     }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    public String update(@ModelAttribute("faculty") @Valid Faculty faculty,
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST, params = "submit")
+    public String update(@ModelAttribute("faculty") @Valid FacultyCourse facultyCourse,
                          BindingResult result,
                          Model model, @PathVariable("id") Long id) {
 
         if(result.hasErrors()) {
             return "faculties/courses/edit";
         }
-        faculty.setId(id);
-        facultyService.edit(faculty);
+        facultyCourse.setId(id);
+        facultyCourseService.edit(facultyCourse);
 
+        return "redirect:/faculties/courses/";
+    }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST, params = "cancel")
+    public String cancel(@ModelAttribute("faculty") @Valid FacultyCourse facultyCourse,
+                         BindingResult result, Model model) {
+        model.addAttribute("message", "You clicked cancel, please re-enter employee details:");
+        //return "faculties/courses/view";
         return "redirect:/faculties/courses/";
     }
 
@@ -79,7 +106,7 @@ public class FacultyCourseController {
             return "faculties/courses/view";
         }
 
-        facultyService.delete(id);
+        facultyCourseService.delete(id);
 
         return "redirect:/faculties/courses/";
     }

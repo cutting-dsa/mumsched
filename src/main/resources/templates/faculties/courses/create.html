@@ -7,12 +7,12 @@
 <th:block layout:fragment="content">
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Faculty</h1>
-    <p class="mb-4">Create Faculty </p>
+    <p class="mb-4">Select courses you want to teach</p>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Create Faculty</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Set Profile</h6>
         </div>
         <div class="card-body">
             <!-- Errors -->
@@ -29,63 +29,31 @@
                 </button>
             </div>
             <!-- End of Error -->
-            <form class="user" action="#" th:action="@{/faculties/save}" th:object="${faculty}"
+            <form class="user" action="#" th:action="@{/faculties/courses/save}" th:object="${facultyCourse}"
                   method="post">
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="text" class="form-control form-control-user" id="firstName"
-                               placeholder="First Name" th:field="*{firstName}" required>
-                        <span class="validationError"
-                              th:if="${#fields.hasErrors('firstName')}"
-                              th:errors="*{firstName}">First Name Error</span>
+                        <label>Select Block</label>
+                        <select name="block" class="form-control" th:field="*{block}">
+                            <option th:each="block : ${blocks}"
+                                    th:value="${block.id}" th:text="${block.name}"></option>
+                        </select>
                     </div>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-user" id="lastName"
-                               placeholder="Last Name" th:field="*{lastName}" required>
-                        <span class="validationError"
-                              th:if="${#fields.hasErrors('lastName')}"
-                              th:errors="*{lastName}">Last Name Error</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control form-control-user" id="email"
-                           placeholder="Email Address" th:field="*{email}" required>
-                    <span class="validationError"
-                          th:if="${#fields.hasErrors('email')}"
-                          th:errors="*{email}">Email Error</span>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                        <label for="startDate">Start Date</label>
-                        <input type="date" name="startDate" class="form-control datepicker" id="startDate" placeholder="Date Joined"
-                               th:field="*{startDate}" required>
-                        <span class="validationError"
-                              th:if="${#fields.hasErrors('startDate')}"
-                              th:errors="*{startDate}">Start Date Error</span>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <label for="endDate">End Date</label>
-                        <input type="date" name="endDate" class="form-control datepicker" id="endDate" placeholder="End Date"
-                               th:field="*{endDate}">
-                        <span class="validationError"
-                              th:if="${#fields.hasErrors('endDate')}"
-                              th:errors="*{endDate}">End Date Error</span>
-                    </div>
-
-                </div>
-                <div class="form-group">
-                        <textarea class="form-control rows=3"  id="biography"
-                               placeholder="Biography" th:field="*{biography}" required >
-                        </textarea>
-                        <span class="validationError"
-                              th:if="${#fields.hasErrors('biography')}"
-                              th:errors="*{biography}">Biography Error</span>
                 </div>
 
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                        <button id="btnAdd" type="submit" class="btn btn-primary btn-user btn-block">Add Faculty
+                        <label>Select Course</label>
+                        <select name="block" class="form-control" th:field="*{course}">
+                            <option th:each="course : ${courses}"
+                                    th:value="${course.id}" th:text="${course.name}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <button id="btnAdd" type="submit" class="btn btn-primary btn-user btn-block">Add Course Selection
                         </button>
                     </div>
                     <div class="col-sm-6">

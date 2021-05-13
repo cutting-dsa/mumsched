@@ -64,4 +64,11 @@ public class FacultyServiceImpl implements FacultyService{
         Random r = new Random( System.currentTimeMillis() );
         return ((1 + r.nextInt(2)) * 10000 + r.nextInt(10000));
     }
+
+    @Override
+    public Faculty getFacultyByUserId(Long id) {
+        return facultyRepository.getFacultyByUserId(id);
+    }
+
+
 }

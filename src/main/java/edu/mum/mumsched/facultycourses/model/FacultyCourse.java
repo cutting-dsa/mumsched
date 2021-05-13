@@ -22,14 +22,14 @@ public class FacultyCourse {
     private Long id;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
+    @JoinColumn(name = "faculty_id", referencedColumnName = "id", nullable = false)
     private Faculty faculty;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "block_id", referencedColumnName = "id")
+    @JoinColumn(name = "block_id", referencedColumnName = "id", nullable = false)
     private Block block;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    @JoinColumn(name = "course_id", referencedColumnName = "id", nullable = false)
     private Course course;
 }

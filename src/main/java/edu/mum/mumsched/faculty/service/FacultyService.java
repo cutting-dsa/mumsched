@@ -11,4 +11,6 @@ public interface FacultyService {
     void delete(Long id);
     Faculty getFaculty(Long id);
     Collection<Faculty> getAllFaculties();
+
+    Faculty getFacultyByUserId(Long id);
 }

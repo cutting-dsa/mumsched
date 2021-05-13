@@ -2,6 +2,7 @@ package edu.mum.mumsched.faculty.controller;
 
 import edu.mum.mumsched.faculty.model.Faculty;
 import edu.mum.mumsched.faculty.service.FacultyService;
+import edu.mum.mumsched.facultycourses.service.FacultyCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ public class FacultyController {
 
     @Autowired
     FacultyService facultyService;
+
+    @Autowired
+    FacultyCourseService facultyCourseService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getFaculties(Model model) {
@@ -73,6 +77,13 @@ public class FacultyController {
     public void delete(@PathVariable("id") Long id) {
 
         facultyService.delete(id);
+    }
+
+    @RequestMapping(value = "/course/{courseId}/block/{blockId}")
+    public Collection<Faculty> getFacultyTeachingCourseInBlock(@PathVariable("blockId") Long blockId,
+                                                               @PathVariable("courseId") Long courseId){
+
+        return facultyCourseService.getFacultyByCourseInBlock(blockId, courseId);
     }
 
 }

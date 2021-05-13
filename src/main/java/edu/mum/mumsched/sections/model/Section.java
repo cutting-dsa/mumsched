@@ -3,18 +3,17 @@ package edu.mum.mumsched.sections.model;
 import edu.mum.mumsched.blocks.entity.Block;
 import edu.mum.mumsched.courses.entity.Course;
 import edu.mum.mumsched.faculty.model.Faculty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Section {
 
     @Id
@@ -36,14 +35,8 @@ public class Section {
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 
-    @Override
-    public String toString() {
-        return "Section{" +
-                "id=" + id +
-                ", faculty=" + faculty +
-                ", block=" + block +
-                ", numberOfSeats=" + numberOfSeats +
-                ", course=" + course +
-                '}';
-    }
+    @Column(name = "number_of_taken_seats")
+    private Long numberOfTakenSeats;
+
+
 }

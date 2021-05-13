@@ -41,11 +41,13 @@ public class SectionEnrollmentController {
         return "enrollment/sections";
     }
 
+    @PreAuthorize("hasAuthority('STUDENT')")
     @RequestMapping("/enrollments")
     public String enrollments(Model model) {
         AppUser loggedUser = SecurityHelper.getLoggedInUser();
 
         Student student = studentService.getStudentByUserId(loggedUser.getId());
+        //TODO: fetch block my student track
         List<Block> blocks = blockService.getBlocksByEntry(student.getEntry());
         model.addAttribute("blocks", blocks);
         return "enrollment/enrollments";
@@ -73,7 +75,6 @@ public class SectionEnrollmentController {
         try {
             Section section = sectionEnrollmentService.getSectionById(parameters.getSectionId());
             if (section == null) {
-//                return new ResponseEntity<String>("Sorry,an error occured. Please try again", HttpStatus.BAD_REQUEST);
                 return HttpStatus.INTERNAL_SERVER_ERROR;
             }
 
@@ -81,13 +82,11 @@ public class SectionEnrollmentController {
             Student student = studentService.getStudentByUserId(loggedUser.getId());
 
             if (student == null) {
-//                return new ResponseEntity<String>("Sorry,an error occured. Please try again", HttpStatus.BAD_REQUEST);
                 return HttpStatus.INTERNAL_SERVER_ERROR;
             }
 
             //check if student had already enrolled to this course
             if (sectionEnrollmentService.studentAlreadyEnrolledInSection(section, student)) {
-//                return new ResponseEntity<String>("Sorry,you have already enrolled to this section", HttpStatus.BAD_REQUEST);
                 return HttpStatus.INTERNAL_SERVER_ERROR;
             }
 
@@ -107,7 +106,6 @@ public class SectionEnrollmentController {
         Student student = studentService.getStudentByUserId(loggedUser.getId());
 
         if (!student.getSections().contains(section)) {
-            // student doesnt have the section already
             return HttpStatus.INTERNAL_SERVER_ERROR;
         } else {
             sectionEnrollmentService.unEnrollStudentSection(section, student);

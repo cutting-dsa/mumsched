@@ -1,9 +1,11 @@
 package edu.mum.mumsched.students.service;
 
 import edu.mum.mumsched.core.BadRequestException;
+import edu.mum.mumsched.entries.entity.Entry;
+import edu.mum.mumsched.students.model.AtomicBigInteger;
 import edu.mum.mumsched.students.model.Student;
 import edu.mum.mumsched.students.repository.StudentRepository;
-import edu.mum.mumsched.users.repository.AppUserRepository;
+import edu.mum.mumsched.users.model.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -70,5 +72,25 @@ public class StudentServiceImpl implements StudentService {
         }
         recentReg.add(new BigInteger("1"));
         return recentReg;
+    }
+
+    @Override
+    public Student createStudent(Entry entry, AppUser user, AppUser loggedUser) {
+        Student newStudent = new Student();
+        newStudent.setUser(user);
+        newStudent.setActive(true);
+        BigInteger incremented = newRegistrationNumber();
+        newStudent.setRegistrationNumber(incremented);
+        newStudent.setEntry(entry);
+        newStudent.setCreatedBy(loggedUser);
+        newStudent.setHasRegisteredCourses(true);
+        return save(newStudent);
+    }
+
+    @Override
+    public BigInteger newRegistrationNumber() {
+        BigInteger recentRegNo = generateRegistrationNumber();
+        AtomicBigInteger atomicBigInteger = new AtomicBigInteger(recentRegNo);
+        return atomicBigInteger.incrementAndGet();
     }
 }

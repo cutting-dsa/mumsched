@@ -79,7 +79,8 @@ public class FacultyController {
         facultyService.delete(id);
     }
 
-    @RequestMapping(value = "/course/{courseId}/block/{blockId}")
+    @RequestMapping(value = "/course/{courseId}/block/{blockId}", method = RequestMethod.GET)
+    @ResponseBody
     public Collection<Faculty> getFacultyTeachingCourseInBlock(@PathVariable("blockId") Long blockId,
                                                                @PathVariable("courseId") Long courseId){
 

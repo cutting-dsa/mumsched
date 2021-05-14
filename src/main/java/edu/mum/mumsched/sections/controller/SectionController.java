@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class SectionController {
 
         model.addAttribute("section", new Section());
         model.addAttribute("blocks", blocks);
-        model.addAttribute("faculties", faculties);
+        model.addAttribute("faculties",  new ArrayList<>());
         model.addAttribute("courses", courses);
 
         return "sections/create";

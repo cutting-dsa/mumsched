@@ -72,6 +72,6 @@ public class Factory {
     }
 
     public static Section createSection() {
-        return new Section(1L,createFaculty(), createBlock(), 100L, createCourse());
+        return new Section(1L,createFaculty(), createBlock(), 100L, createCourse(), 1L);
     }
 }

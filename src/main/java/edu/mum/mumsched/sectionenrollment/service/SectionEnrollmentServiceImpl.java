@@ -4,8 +4,6 @@ import edu.mum.mumsched.sectionenrollment.repository.SectionEnrollmentRepository
 import edu.mum.mumsched.sections.model.Section;
 import edu.mum.mumsched.students.model.Student;
 import edu.mum.mumsched.students.repository.StudentRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,9 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class SectionEnrollmentServiceImpl implements SectionEnrollmentService{
-
-    public static final Logger logger = LogManager.getLogger(SectionEnrollmentServiceImpl.class);
+public class SectionEnrollmentServiceImpl implements SectionEnrollmentService {
 
     @Autowired
     private SectionEnrollmentRepository repository;
@@ -43,9 +39,7 @@ public class SectionEnrollmentServiceImpl implements SectionEnrollmentService{
     @Override
     public void enrollStudentSection(Section section, Student student) {
         student.getSections().addAll(Arrays.asList(section));
-        if(student.getSections().size() == 4) {
-            student.setHasRegisteredCourses(true);
-        }
+        student.setHasRegisteredCourses(student.getSections().size() == 4);
         studentRepository.save(student);
     }
 

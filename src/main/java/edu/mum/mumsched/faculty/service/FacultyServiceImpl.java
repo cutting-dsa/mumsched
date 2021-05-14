@@ -22,24 +22,24 @@ public class FacultyServiceImpl implements FacultyService{
     AppUserService userService;
 
     @Override
-    public void save(Faculty faculty) {
+    public Long save(Faculty faculty) {
         // save user
         AppUser user = userService.save(faculty.createAppUser());
 
         faculty.setUser(user);
         faculty.setStaffId((long) gen());
 
-        facultyRepository.save(faculty);
+        return facultyRepository.save(faculty).getId();
     }
 
     @Override
-    public void edit(Faculty faculty) {
+    public Long edit(Faculty faculty) {
         Faculty facultyDB = this.getFaculty(faculty.getId());
 
         faculty.setStaffId(facultyDB.getStaffId());
         faculty.setUser(facultyDB.getUser());
 
-        facultyRepository.save(faculty);
+        return facultyRepository.save(faculty).getId();
     }
 
     @Override

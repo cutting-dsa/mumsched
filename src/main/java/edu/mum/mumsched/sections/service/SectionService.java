@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface SectionService {
 
-    void save(Section section);
+    void save(Section section) throws Exception;
     void edit(Section section);
     void delete(Long id);
     Section getSection(Long id);

@@ -33,7 +33,12 @@ public class SectionServiceImpl implements SectionService {
     private StudentService studentService;
 
     @Override
-    public void save(Section section) {
+    public void save(Section section) throws Exception {
+
+        // validate
+        if(section.getNumberOfSeats() <= 0){
+            throw new Exception("Number of Seats has to be greater than " + section.getNumberOfSeats());
+        }
 
         Faculty faculty = facultyService.getFaculty(section.getFaculty().getId());
 

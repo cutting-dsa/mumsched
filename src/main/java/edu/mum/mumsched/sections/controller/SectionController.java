@@ -15,9 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
 @Controller
 @RequestMapping("/sections")
@@ -76,11 +78,25 @@ public class SectionController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(@ModelAttribute("section") @Valid Section section,
                        BindingResult result,
-                       Model model) {
+                       Model model) throws Exception {
 
-        sectionService.save(section);
+        try {
+            sectionService.save(section);
+            return "redirect:/sections/";
+        } catch (Exception e){
+            model.addAttribute("errorMessage",e.getMessage());
+            model.addAttribute("section",section);
 
-        return "redirect:/sections/";
+            Collection<Faculty> faculties = facultyService.getAllFaculties();
+            Collection<Block> blocks = blockService.getAllBlocks();
+            Collection<Course> courses = courseService.getAllCourses();
+
+            model.addAttribute("blocks", blocks);
+            model.addAttribute("faculties", faculties);
+            model.addAttribute("courses", courses);
+
+            return "/sections/create";
+        }
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
@@ -104,6 +120,10 @@ public class SectionController {
         sectionService.delete(id);
     }
 
+    @ExceptionHandler({Exception.class})
+    public ModelAndView getException(Exception ex) {
+        return new ModelAndView("sections/create", "error", ex.getMessage());
+    }
     @RequestMapping(value = "/members/{id}", method = RequestMethod.GET)
     public String getSectionMembers(Model model, @PathVariable("id") Long id) {
         List<Student> studentList = sectionService.getSectionMembers(id);

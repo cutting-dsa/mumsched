@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 public class FacultyCourseServiceImpl implements FacultyCourseService{
@@ -81,4 +82,19 @@ public class FacultyCourseServiceImpl implements FacultyCourseService{
     public Collection<FacultyCourse> getAllFacultyCourses() {
         return facultyCourseRepository.findAll();
     }
+
+    @Override
+    public Collection<Course> getFacultyCourses(Long facultyId) {
+        return facultyCourseRepository
+                .getFacultyCourseByFacultyId(facultyId)
+                .stream().map(fc -> fc.getCourse()).collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Faculty> getFacultyByCourseInBlock(Long blockId, Long courseId) {
+        return facultyCourseRepository
+                .getFacultyCoursesByBlockIdAndCourseId(blockId, courseId)
+                .stream().map(fc -> fc.getFaculty()).collect(Collectors.toList());
+    }
+
 }

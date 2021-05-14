@@ -1,39 +1,33 @@
 package edu.mum.mumsched.students.controller;
 
-import edu.mum.mumsched.students.model.AddUserForm;
-import edu.mum.mumsched.students.model.AtomicBigInteger;
+import edu.mum.mumsched.config.security.SecurityHelper;
+import edu.mum.mumsched.entries.entity.Entry;
+import edu.mum.mumsched.entries.service.EntryService;
+import edu.mum.mumsched.students.model.AddStudentForm;
 import edu.mum.mumsched.students.model.DeleteStudentParameters;
 import edu.mum.mumsched.students.model.Student;
+import edu.mum.mumsched.students.model.Track;
 import edu.mum.mumsched.students.service.StudentService;
 import edu.mum.mumsched.users.model.AppUser;
-import edu.mum.mumsched.users.repository.AppUserRepository;
 import edu.mum.mumsched.users.service.AppUserService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.math.BigInteger;
+import java.util.List;
 
 @Controller
 public class StudentController {
-
-    public static final Logger LOGGER = LogManager.getLogger(StudentController.class);
 
     @Autowired
     private StudentService studentService;
@@ -42,7 +36,7 @@ public class StudentController {
     private AppUserService userService;
 
     @Autowired
-    private AppUserRepository appUserRepository;
+    private EntryService entryService;
 
     @Bean
     PasswordEncoder getEncoder() {
@@ -63,43 +57,28 @@ public class StudentController {
 
     @GetMapping(value = "/students/add")
     public String studentRegForm(Model model) {
-        AddUserForm student = new AddUserForm();
+        AddStudentForm student = new AddStudentForm();
+        List<Entry> entries = entryService.getAllEntries();
         model.addAttribute("student", student);
+        model.addAttribute("entries", entries);
+        model.addAttribute("tracks", Track.values());
         return "students/create";
     }
 
     @PostMapping("/students")
-    public String processStudent(@Valid @ModelAttribute("student") AddUserForm student,
-                                 BindingResult result,
-                                 SessionStatus sessionStatus) {
+    public String processStudent(@Valid @ModelAttribute("student") AddStudentForm student,
+                                 BindingResult result) {
         if (result.hasErrors()) {
             return "students/create";
         }
 
-        BigInteger recentRegNo = studentService.generateRegistrationNumber();
-        AtomicBigInteger atomicBigInteger = new AtomicBigInteger(recentRegNo);
-
-        //save user
-        AppUser newUser = new AppUser();
-        newUser.setActive(true);
-        newUser.setEmail(student.getEmail());
-        newUser.setPassword("secret");
-        newUser.setFirstName(student.getFirstName());
-        newUser.setLastName(student.getLastName());
-        newUser.setRole("STUDENT");
-
+        Entry entry = entryService.getEntryById(student.getEntryId());
+        AppUser newUser = student.toUser();
         userService.save(newUser);
-
         AppUser user = userService.getUserByEmail(newUser.getEmail());
+        AppUser loggedUser = SecurityHelper.getLoggedInUser();
 
-        Student newStudent = new Student();
-        newStudent.setUser(user);
-        newStudent.setActive(true);
-        BigInteger incremented = atomicBigInteger.incrementAndGet();
-        newStudent.setRegistrationNumber(incremented);
-
-        studentService.save(newStudent);
-        sessionStatus.setComplete();
+        studentService.createStudent(entry, student.getTrack(), user, loggedUser);
 
         return "redirect:/students";
     }
@@ -114,7 +93,7 @@ public class StudentController {
 
     @PostMapping(path = "/students/update/{studentId}")
     public String updateStudent(@PathVariable("studentId") Long studentId,
-                               @Valid Student student,
+                                @Valid Student student,
                                 BindingResult result,
                                 Model model) {
         if (result.hasErrors()) {
@@ -130,7 +109,7 @@ public class StudentController {
     public void deleteStudent(@RequestBody DeleteStudentParameters parameters) {
         try {
             Student student = studentService.getStudent(parameters.getStudentId());
-             studentService.deleteStudent(student);
+            studentService.deleteStudent(student);
         } catch (EmptyResultDataAccessException e) {
 
         }

@@ -35,7 +35,7 @@
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <label>Select Block</label>
-                        <select name="block" class="form-control" th:field="*{block}">
+                        <select name="block" class="form-control" th:field="*{block}" id="block_select" th:id="block_select">
                             <option th:each="block : ${blocks}"
                                     th:value="${block.id}" th:text="${block.name}"></option>
                         </select>
@@ -44,8 +44,18 @@
 
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
+                        <label>Select Course</label>
+                        <select name="course" class="form-control" th:field="*{course}" id="course_select" th:id="course_select">
+                            <option th:each="course : ${courses}"
+                                    th:value="${course.id}" th:text="${course.name}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
                         <label>Select Faculty</label>
-                        <select name="block" class="form-control" th:field="*{faculty}">
+                        <select name="block" class="form-control" th:field="*{faculty}" id="faculty_select" th:id="faculty_select">
                             <option th:each="faculty : ${faculties}"
                                     th:value="${faculty.id}" th:text="${faculty.user.firstName + ' '+ faculty.user.lastName}"></option>
                         </select>
@@ -75,5 +85,37 @@
             </form>
         </div>
     </div>
+
+    <!-- AJAX CALL -->
+    <script type="application/javascript" th:src="@{/js/jquery/jquery-3.6.0.min.js}">
+        $(document).ready(function(){
+
+            $("#course_select").change(function(){
+                console.log("reached here");
+                var courseId = $(this).val();
+                var blockId = $("#block_select").val();
+
+                $.ajax({
+                    url: '/course/' + courseId +'/block/' + blockId ,
+                    type: 'get',
+                    dataType: 'json',
+                    success:function(response){
+
+                        var len = response.length;
+
+                        $("#faculty_select").empty();
+                        for( var i = 0; i<len; i++){
+                            var id = response[i]['id'];
+                            var name = response[i]['user'].getAttribute("firstName") + ' ' + response[i]['user'].getAttribute("lastName");
+
+                            $("#faculty_select").append("<option value='"+id+"' text='"+name+"'></option>");
+
+                        }
+                    }
+                });
+            });
+
+        });
+    </script>
 </th:block>
 </html>

@@ -1,6 +1,8 @@
 package edu.mum.mumsched.blocks.service;
 
 import edu.mum.mumsched.blocks.entity.Block;
+import edu.mum.mumsched.entries.entity.Entry;
+import edu.mum.mumsched.students.model.Student;
 
 import java.util.List;
 
@@ -10,4 +12,5 @@ public interface BlockService {
     void edit(Block entry) throws Exception;
     void delete(Long id) throws Exception;
     Block getBlock(Long id);
+    List<Block> getBlocksByEntry(Student student);
 }

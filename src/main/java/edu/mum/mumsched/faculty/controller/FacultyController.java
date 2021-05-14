@@ -1,17 +1,14 @@
 package edu.mum.mumsched.faculty.controller;
 
-import edu.mum.mumsched.config.exceptions.GeneralException;
 import edu.mum.mumsched.faculty.model.Faculty;
 import edu.mum.mumsched.faculty.service.FacultyService;
-import edu.mum.mumsched.users.model.AppUser;
+import edu.mum.mumsched.facultycourses.service.FacultyCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -22,6 +19,9 @@ public class FacultyController {
 
     @Autowired
     FacultyService facultyService;
+
+    @Autowired
+    FacultyCourseService facultyCourseService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getFaculties(Model model) {
@@ -73,17 +73,17 @@ public class FacultyController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public String delete(@PathVariable("id") Long id,
-                             BindingResult result,
-                             Model model) {
-
-        if(result.hasErrors()) {
-            return "faculties/view";
-        }
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
 
         facultyService.delete(id);
+    }
 
-        return "redirect:/faculties/";
+    @RequestMapping(value = "/course/{courseId}/block/{blockId}")
+    public Collection<Faculty> getFacultyTeachingCourseInBlock(@PathVariable("blockId") Long blockId,
+                                                               @PathVariable("courseId") Long courseId){
+
+        return facultyCourseService.getFacultyByCourseInBlock(blockId, courseId);
     }
 
 }

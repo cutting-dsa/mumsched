@@ -6,6 +6,7 @@ import edu.mum.mumsched.users.model.Role;
 import edu.mum.mumsched.users.service.AppUserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -76,19 +77,11 @@ public class UserController {
         return "redirect:/users/";
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deactivate(@PathVariable("id") Long id,
-                       BindingResult result,
-                       Model model) {
-
-        if(result.hasErrors()) {
-            //log.info("I have reached here");
-            return "users/view";
-        }
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
 
         userService.deactivate(id);
-
-        return "redirect:/users/";
     }
 
 

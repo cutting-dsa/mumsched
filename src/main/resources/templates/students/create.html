@@ -14,26 +14,19 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-<!--                <div th:if="${#fields.hasErrors('*')}">-->
-<!--                                                    <span class="validationError">-->
-<!--                                             Please correct the problems below and resubmit.-->
-<!--                                             </span>-->
-<!--                </div>-->
                 <form class="user" action="#" th:action="@{/students}" th:object="${student}"
                       method="post">
                     <div class="form-group">
+                        <label>First Name</label>
                         <input type="text" class="form-control form-control-user" id="firstName"
                                placeholder="First Name" name="firstName" th:field="*{firstName}">
-
-<!--                        <div th:if="${#fields.hasErrors('${user.email}')}"-->
-<!--                             th:errors="*{user.email}"></div>-->
-
                         <span th:if="${#fields.hasErrors('${student.firstName}')}"
                               th:errors="*{student.firstName}"
-                        th:class="${#fields.hasErrors('${student.firstName}')} ? error">First Name Error</span>
+                              th:class="${#fields.hasErrors('${student.firstName}')} ? error">First Name Error</span>
 
                     </div>
                     <div class="form-group">
+                        <label>Last Name</label>
                         <input type="text" class="form-control form-control-user" id="lastName"
                                placeholder="Last Name" name="lastName" th:field="*{lastName}">
                         <span class="validationError"
@@ -41,11 +34,28 @@
                               th:errors="*{lastName}">Last Name Error</span>
                     </div>
                     <div class="form-group">
+                        <label>Email</label>
                         <input type="email" class="form-control form-control-user" id="email"
                                placeholder="Email Address" name="email" th:field="*{email}">
                         <span class="validationError"
                               th:if="${#fields.hasErrors('email')}"
                               th:errors="*{email}">Email Error</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Entry</label>
+                        <select name="entry" class="form-control" th:field="*{entryId}">
+                            <option th:each="entry : ${entries}"
+                                    th:value="${entry.id}" th:text="${entry.name}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Track</label>
+                        <select name="track" class="form-control" th:field="*{track}">
+                            <option th:each="track : ${tracks}"
+                                    th:value="${track}" th:text="${track}"></option>
+                        </select>
                     </div>
                     <button id="btnAdd" type="submit" class="btn btn-primary btn-user btn-block">Add Student
                     </button>

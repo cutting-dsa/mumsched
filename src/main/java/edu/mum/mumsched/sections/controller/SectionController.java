@@ -2,21 +2,24 @@ package edu.mum.mumsched.sections.controller;
 
 import edu.mum.mumsched.blocks.entity.Block;
 import edu.mum.mumsched.blocks.service.BlockService;
+import edu.mum.mumsched.courses.entity.Course;
+import edu.mum.mumsched.courses.service.CourseService;
 import edu.mum.mumsched.faculty.model.Faculty;
 import edu.mum.mumsched.faculty.service.FacultyService;
 import edu.mum.mumsched.sections.model.Section;
 import edu.mum.mumsched.sections.service.SectionService;
+import edu.mum.mumsched.students.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 
 @Controller
 @RequestMapping("/sections")
@@ -31,6 +34,9 @@ public class SectionController {
     @Autowired
     private BlockService blockService;
 
+    @Autowired
+    private CourseService courseService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getSections(Model model) {
         Collection<Section> sections = sectionService.getAllSections();
@@ -44,10 +50,12 @@ public class SectionController {
         Collection<Faculty> faculties = facultyService.getAllFaculties();
 
         Collection<Block> blocks = blockService.getAllBlocks();
+        Collection<Course> courses = courseService.getAllCourses();
 
         model.addAttribute("section", new Section());
         model.addAttribute("blocks", blocks);
         model.addAttribute("faculties", faculties);
+        model.addAttribute("courses", courses);
 
         return "sections/create";
     }
@@ -58,21 +66,37 @@ public class SectionController {
 
         Collection<Faculty> faculties = facultyService.getAllFaculties();
         Collection<Block> blocks = blockService.getAllBlocks();
+        Collection<Course> courses = courseService.getAllCourses();
 
         model.addAttribute("section", section);
         model.addAttribute("blocks", blocks);
         model.addAttribute("faculties", faculties);
+        model.addAttribute("courses", courses);
         return "sections/edit";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(@ModelAttribute("section") @Valid Section section,
                        BindingResult result,
-                       Model model) {
+                       Model model) throws Exception {
 
-        sectionService.save(section);
+        try {
+            sectionService.save(section);
+            return "redirect:/sections/";
+        } catch (Exception e){
+            model.addAttribute("errorMessage",e.getMessage());
+            model.addAttribute("section",section);
 
-        return "redirect:/sections/";
+            Collection<Faculty> faculties = facultyService.getAllFaculties();
+            Collection<Block> blocks = blockService.getAllBlocks();
+            Collection<Course> courses = courseService.getAllCourses();
+
+            model.addAttribute("blocks", blocks);
+            model.addAttribute("faculties", faculties);
+            model.addAttribute("courses", courses);
+
+            return "/sections/create";
+        }
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
@@ -90,16 +114,22 @@ public class SectionController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public String delete(@PathVariable("id") Long id,
-                         BindingResult result,
-                         Model model) {
-
-        if(result.hasErrors()) {
-            return "sections/view";
-        }
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
 
         sectionService.delete(id);
-
-        return "redirect:/sections/";
     }
+
+    @ExceptionHandler({Exception.class})
+    public ModelAndView getException(Exception ex) {
+        return new ModelAndView("sections/create", "error", ex.getMessage());
+    }
+    @RequestMapping(value = "/members/{id}", method = RequestMethod.GET)
+    public String getSectionMembers(Model model, @PathVariable("id") Long id) {
+        List<Student> studentList = sectionService.getSectionMembers(id);
+        model.addAttribute("members", studentList);
+        model.addAttribute("section", sectionService.getSection(id));
+        return "sections/members";
+    }
+
 }

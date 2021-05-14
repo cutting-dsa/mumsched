@@ -1,19 +1,19 @@
 package edu.mum.mumsched.sections.model;
 
 import edu.mum.mumsched.blocks.entity.Block;
+import edu.mum.mumsched.courses.entity.Course;
 import edu.mum.mumsched.faculty.model.Faculty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Section {
 
     @Id
@@ -30,5 +30,13 @@ public class Section {
 
     @Column(name = "number_of_seats")
     private Long numberOfSeats;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    private Course course;
+
+    @Column(name = "number_of_taken_seats")
+    private Long numberOfTakenSeats;
+
 
 }

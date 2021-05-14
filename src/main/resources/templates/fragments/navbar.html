@@ -4,9 +4,9 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/dashboard}">
+        <div class="sidebar-brand-icon">
+            <i class="fas fa-school"></i>
         </div>
         <div class="sidebar-brand-text mx-3">MUMSched</div>
     </a>
@@ -16,7 +16,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" th:href="@{/home}">
+        <a class="nav-link" th:href="@{/dashboard}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -39,21 +39,27 @@
             <span>Courses</span>
         </a>
 
-        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/students}">
-            <i class="fas fa-fw fa-plus"></i>
-            <span>Students</span>
-        </a>
         <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/faculties/}">
             <i class="fas fa-fw fa-plus"></i>
             <span>Faculty</span>
+        </a>
+
+        <a th:if="${#authorization.expression('hasAuthority(''STUDENT'')')}" class="nav-link" th:href="@{/enrollments}">
+            <i class="fas fa-fw fa-address-card"></i>
+            <span>Register Sections</span>
         </a>
         <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-link" th:href="@{/sections/}">
             <i class="fas fa-fw fa-plus"></i>
             <span>Sections</span>
         </a>
+        <a th:if="${#authorization.expression('hasAuthority(''FACULTY'')')}" class="nav-link"
+           th:href="@{/faculties/courses/}">
+            <i class="fas fa-fw fa-plus"></i>
+            <span>Select Courses</span>
+        </a>
     </li>
 
-    <li class="nav-item">
+    <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
            aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-users"></i>

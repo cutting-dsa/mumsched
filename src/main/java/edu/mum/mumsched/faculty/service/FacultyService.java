@@ -6,9 +6,11 @@ import java.util.Collection;
 
 public interface FacultyService {
 
-    void save(Faculty faculty);
-    void edit(Faculty faculty);
+    Long save(Faculty faculty);
+    Long edit(Faculty faculty);
     void delete(Long id);
     Faculty getFaculty(Long id);
     Collection<Faculty> getAllFaculties();
+
+    Faculty getFacultyByUserId(Long id);
 }

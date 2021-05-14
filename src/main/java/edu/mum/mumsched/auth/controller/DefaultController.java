@@ -1,8 +1,12 @@
 package edu.mum.mumsched.auth.controller;
 
+import edu.mum.mumsched.config.security.CustomUserDetails;
+import edu.mum.mumsched.config.security.SecurityHelper;
 import edu.mum.mumsched.users.model.AppUser;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +26,12 @@ public class DefaultController {
 
     @RequestMapping("/home")
     public String index(Model model) {
-        return "layout";
+
+        return "redirect:/dashboard";
     }
 
     // Login form
-    @RequestMapping("/login")
+    @RequestMapping(value = {"/", "/login"})
     public String login() {
         return "/login";
     }
@@ -38,10 +43,10 @@ public class DefaultController {
         return "error/403.html";
     }
 
-    static final String VIEW_INDEX = "index";
+   // static final String VIEW_INDEX = "index";
 
-    @GetMapping(value = "/")
+    /*@GetMapping(value = "/")
     public String getHome() {
         return VIEW_INDEX;
-    }
+    }*/
 }

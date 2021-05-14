@@ -9,7 +9,7 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 public class Course {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty
